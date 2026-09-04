@@ -1,0 +1,34 @@
+[tools]
+python = "3.12"
+
+[tasks.setup]
+description = "creates venv + uv sync (installs the env)"
+run = "bash scripts/setup.sh"
+
+[tasks.format]
+description = "uv run ruff format ."
+run = "bash scripts/format.sh"
+
+[tasks.lint]
+description = "uv run ruff check --fix ."
+run = "bash scripts/lint.sh"
+
+[tasks.typecheck]
+description = "uv run ty check"
+run = "bash scripts/typecheck.sh"
+
+[tasks.test]
+description = "uv run pytest"
+run = "bash scripts/test.sh"
+
+[tasks.check]
+description = "lint + format-check + typecheck + test — run before every commit / PR"
+run = "bash scripts/check.sh"
+
+[tasks.server]
+description = "run development server via granian"
+run = "bash scripts/server.sh"
+
+[tasks.validate]
+description = "run check and validate environment"
+run = "bash scripts/validate.sh"

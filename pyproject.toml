@@ -1,0 +1,47 @@
+[project]
+name = "radar-eleitoral"
+version = "0.1.0"
+description = "Vitrine interativa de candidaturas eleitorais e cobertura do G1 com mapa do Brasil e automação jornalística."
+requires-python = ">=3.12"
+dependencies = [
+    "dash>=2.17.0",
+    "granian>=1.6.0",
+    "pydantic>=2.7.0",
+    "pydantic-settings>=2.2.0",
+    "httpx>=0.27.0",
+    "loguru>=0.7.2",
+    "pandas>=2.2.0",
+    "plotly>=5.22.0",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.9",
+    "ty>=0.0.50",
+    "pytest>=8",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/radar_eleitoral"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "UP", "B", "SIM", "C4", "RUF"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.ty]
+environment.python-version = "3.12"
+
+[tool.ty.src]
+include = ["src", "tests"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
