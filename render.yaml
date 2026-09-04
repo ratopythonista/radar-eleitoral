@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: radar-eleitoral
+    runtime: docker
+    plan: free
+    region: oregon
+    branch: main
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /
+    autoDeploy: true
+    envVars:
+      - key: PYTHONUNBUFFERED
+        value: "1"
+      - key: PORT
+        value: "8080"
