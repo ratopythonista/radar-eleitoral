@@ -10,9 +10,10 @@ CUSTOM_INDEX_STRING = """<!DOCTYPE html>
         {%metas%}
         <title>{%title%}</title>
         {%favicon%}
-        <link rel="manifest" href="/assets/manifest.json">
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/icon-32.png">
         <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
         <link rel="apple-touch-icon" href="/assets/icon-192.png">
+        <link rel="manifest" href="/assets/manifest.json">
         {%css%}
         <script src="https://cdn.tailwindcss.com"></script>
         <meta name="apple-mobile-web-app-capable" content="yes">

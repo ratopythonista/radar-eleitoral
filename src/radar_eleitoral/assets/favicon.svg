@@ -1,61 +1,48 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
   <defs>
-    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#061c16" />
-      <stop offset="50%" stop-color="#040f0c" />
-      <stop offset="100%" stop-color="#020806" />
-    </linearGradient>
-    <linearGradient id="emeraldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#34d399" />
+    <!-- Vibrant Emerald & Mint Gradients -->
+    <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6ee7b7" />
       <stop offset="50%" stop-color="#10b981" />
       <stop offset="100%" stop-color="#059669" />
     </linearGradient>
-    <linearGradient id="mintGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#a7f3d0" />
-      <stop offset="100%" stop-color="#6ee7b7" />
+
+    <linearGradient id="sweepGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.1" />
+      <stop offset="60%" stop-color="#34d399" stop-opacity="0.45" />
+      <stop offset="100%" stop-color="#a7f3d0" stop-opacity="0.85" />
     </linearGradient>
-    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#10b981" stop-opacity="0.35" />
-      <stop offset="100%" stop-color="#10b981" stop-opacity="0" />
+
+    <radialGradient id="centerGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="35%" stop-color="#a7f3d0" />
+      <stop offset="70%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#059669" />
     </radialGradient>
-    <linearGradient id="sweep" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#6ee7b7" stop-opacity="0.3" />
-      <stop offset="100%" stop-color="#10b981" stop-opacity="0" />
-    </linearGradient>
   </defs>
 
-  <!-- Background squircle -->
-  <rect width="512" height="512" rx="112" fill="url(#bgGrad)" stroke="#10b981" stroke-opacity="0.3" stroke-width="6" />
+  <!-- Radar Sweep Sector (Upper Right) with vibrant gradient -->
+  <path d="M 256 256 L 476 256 A 220 220 0 0 0 256 36 Z" fill="url(#sweepGrad)" />
 
-  <!-- Ambient glow -->
-  <circle cx="256" cy="256" r="210" fill="url(#glow)" />
+  <!-- Radar Concentric Rings (Bold, Thick, High Contrast) -->
+  <!-- Outer Ring (r=220, stroke=36) -->
+  <circle cx="256" cy="256" r="220" fill="none" stroke="url(#ringGrad)" stroke-width="36" />
 
-  <!-- Radar grid rings -->
-  <circle cx="256" cy="256" r="190" fill="none" stroke="#10b981" stroke-opacity="0.15" stroke-width="2" stroke-dasharray="4 6" />
-  <circle cx="256" cy="256" r="135" fill="none" stroke="#10b981" stroke-opacity="0.25" stroke-width="2" />
-  <circle cx="256" cy="256" r="80" fill="none" stroke="#10b981" stroke-opacity="0.35" stroke-width="2" />
+  <!-- Inner Ring (r=130, stroke=32) -->
+  <circle cx="256" cy="256" r="130" fill="none" stroke="#10b981" stroke-width="32" stroke-opacity="0.9" />
 
-  <!-- Radar crosshairs -->
-  <line x1="256" y1="56" x2="256" y2="456" stroke="#10b981" stroke-opacity="0.2" stroke-width="2" />
-  <line x1="56" y1="256" x2="456" y2="256" stroke="#10b981" stroke-opacity="0.2" stroke-width="2" />
+  <!-- Radar Crosshairs (Thick 24px lines) -->
+  <line x1="256" y1="36" x2="256" y2="476" stroke="#34d399" stroke-width="24" stroke-opacity="0.75" stroke-linecap="round" />
+  <line x1="36" y1="256" x2="476" y2="256" stroke="#34d399" stroke-width="24" stroke-opacity="0.75" stroke-linecap="round" />
 
-  <!-- Radar sweep sector (upper right 45-degree angle) -->
-  <path d="M 256 256 L 391 121 A 190 190 0 0 0 256 66 Z" fill="url(#sweep)" />
+  <!-- Target Detection Ping / Blip (Upper Right Sweep) -->
+  <circle cx="390" cy="122" r="38" fill="none" stroke="#a7f3d0" stroke-width="16" opacity="0.9" />
+  <circle cx="390" cy="122" r="22" fill="#ffffff" />
 
-  <!-- Blip pulse points -->
-  <circle cx="340" cy="180" r="8" fill="#6ee7b7">
-    <animate attributeName="opacity" values="1;0.3;1" dur="2.4s" repeatCount="indefinite" />
-  </circle>
-  <circle cx="340" cy="180" r="16" fill="none" stroke="#6ee7b7" stroke-width="2" opacity="0.6">
-    <animate attributeName="r" values="8;24" dur="2.4s" repeatCount="indefinite" />
-    <animate attributeName="opacity" values="0.8;0" dur="2.4s" repeatCount="indefinite" />
-  </circle>
+  <!-- Secondary Blip -->
+  <circle cx="170" cy="342" r="18" fill="#34d399" />
 
-  <circle cx="180" cy="320" r="6" fill="#34d399" opacity="0.85" />
-  <circle cx="310" cy="310" r="5" fill="#10b981" opacity="0.7" />
-
-  <!-- Central Electoral Beacon / Radar Node -->
-  <circle cx="256" cy="256" r="32" fill="#040f0c" stroke="url(#emeraldGrad)" stroke-width="5" />
-  <circle cx="256" cy="256" r="16" fill="url(#mintGrad)" />
-  <circle cx="256" cy="256" r="6" fill="#ffffff" />
+  <!-- Center Beacon Core (Large, Ultra-Bright Glowing Core) -->
+  <circle cx="256" cy="256" r="62" fill="url(#centerGlow)" stroke="#040f0c" stroke-width="12" />
+  <circle cx="256" cy="256" r="24" fill="#ffffff" />
 </svg>

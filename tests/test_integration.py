@@ -106,6 +106,10 @@ class TestWSGIServerIntegration:
         )
 
         # 3. PWA Icons PNG
+        res_32 = client.get("/assets/icon-32.png")
+        assert res_32.status_code == 200
+        assert "image/png" in res_32.content_type
+
         res_192 = client.get("/assets/icon-192.png")
         assert res_192.status_code == 200
         assert "image/png" in res_192.content_type
