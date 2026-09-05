@@ -90,6 +90,21 @@ class TestWSGIServerIntegration:
         assert res_fav.status_code == 200
         assert "image/svg+xml" in res_fav.content_type
 
+        # Favicon ICO (Tab icon para Dash e browsers legados)
+        res_ico = client.get("/assets/favicon.ico")
+        assert res_ico.status_code == 200
+        assert (
+            "image/x-icon" in res_ico.content_type
+            or "image/vnd.microsoft.icon" in res_ico.content_type
+        )
+
+        res_dash_ico = client.get("/_favicon.ico")
+        assert res_dash_ico.status_code == 200
+        assert (
+            "image/x-icon" in res_dash_ico.content_type
+            or "image/vnd.microsoft.icon" in res_dash_ico.content_type
+        )
+
         # 3. PWA Icons PNG
         res_192 = client.get("/assets/icon-192.png")
         assert res_192.status_code == 200
