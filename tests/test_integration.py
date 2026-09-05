@@ -33,6 +33,8 @@ class TestWSGIServerIntegration:
         # Verificação de assets PWA injetados
         assert '<link rel="manifest" href="/assets/manifest.json"' in html
         assert '<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"' in html
+        assert "serviceWorker" in html
+        assert "/assets/sw.js" in html
         assert '<link rel="apple-touch-icon" href="/assets/icon-192.png"' in html
 
     def test_home_page_opengraph_meta_tags(self, client):
@@ -104,6 +106,11 @@ class TestWSGIServerIntegration:
         # Peso menor que 300 KB exigido por scrapers
         assert len(res_card.data) < 300 * 1024
 
+        # 5. Service Worker JS
+        res_sw = client.get("/assets/sw.js")
+        assert res_sw.status_code == 200
+        assert "javascript" in res_sw.content_type
+
 
 class TestDeploymentContracts:
     """Valida os arquivos de infraestrutura e contrato com o Render.com."""
@@ -130,6 +137,8 @@ class TestDeploymentContracts:
         assert ".venv" in content
         assert "tests/" in content
         assert ".git" in content
+        # .python-version NÃO deve ser ignorado pois é copiado no builder do Dockerfile
+        assert ".python-version" not in content
 
     def test_dockerfile_multi_stage_and_security(self):
         """Verifica se Dockerfile segue o padrão multi-stage unprivileged."""

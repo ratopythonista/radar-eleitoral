@@ -51,6 +51,11 @@ CUSTOM_INDEX_STRING = """<!DOCTYPE html>
                     });
                 }
             });
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function() {
+                    navigator.serviceWorker.register('/assets/sw.js').catch(function() {});
+                });
+            }
         </script>
     </head>
     <body class="h-full bg-[#040f0c] text-slate-100 antialiased">
