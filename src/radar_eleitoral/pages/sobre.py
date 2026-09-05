@@ -14,7 +14,7 @@ dash.register_page(
         "Conheça os bastidores do Radar Eleitoral: automação jornalística, transparência "
         "eleitoral, dados públicos do G1 e canal de apoio cívico via Pix."
     ),
-    image="social-card.png",
+    image=settings.default_social_card,
 )
 
 THEME = {

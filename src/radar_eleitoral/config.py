@@ -12,6 +12,8 @@ class Settings(BaseSettings):
         env_file_encoding="utf-8",
         extra="ignore",
     )
+    # Ativos de branding e metadados
+    default_social_card: str = "social-card.png"
 
     # Dados do Pix para sustentabilidade e apoio
     pix_key: str = "ratopythonista@noh.pix"
