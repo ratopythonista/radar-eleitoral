@@ -25,8 +25,20 @@ Painel lateral/inferior de destaque na interface do mapa que exibe a introduçã
 _Avoid: Pop-up invasivo, Tooltip simples._
 
 ### Apoio
-Mecanismo voluntário de doação de apoiadores via Pix (QR Code) ou Buy Me a Coffee na página `/sobre`.
-_Avoid: Cobrança, Assinatura, Paywall._
+Mecanismo voluntário de doação financeira de apoiadores exclusivamente via Pix (QR Code dinâmico/estático e chave copia-e-cola) na página `/sobre`.
+_Avoid: Cobrança, Assinatura, Paywall, Buy Me a Coffee._
+
+### Human-in-the-Loop
+Princípio editorial e arquitetural em que reportagens geradas por inteligência artificial a partir de dados públicos oficiais são obrigatoriamente revisadas e chanceladas por jornalistas antes da publicação.
+_Avoid: Autonomia total, Publicação cega, Geração desassistida._
+
+### Código Pix Copia-e-Cola
+Cadeia textual no padrão EMVCo (BR Code) estabelecido pelo Banco Central contendo payload padronizado para efetivação de transferências instantâneas via aplicativos bancários.
+_Avoid: Link de pagamento, Boleto, Checkout externo._
+
+### Disclaimer de Independência
+Declaração explícita de isenção institucional, assegurando a natureza estritamente pessoal, cívica e de código aberto do projeto, sem vínculo financeiro, comercial ou patrocínio com o Grupo Globo ou G1.
+_Avoid: Termos de Uso genéricos, Nota de rodapé oculta._
 
 ## Dependências
 
