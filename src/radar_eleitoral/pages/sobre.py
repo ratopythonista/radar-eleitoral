@@ -23,7 +23,7 @@ def render_sobre_header() -> html.Header:
         [
             html.Div(
                 [
-                    html.A(
+                    dcc.Link(
                         [
                             html.Span(
                                 "RADAR",
@@ -40,7 +40,7 @@ def render_sobre_header() -> html.Header:
                 ],
                 className="flex items-center",
             ),
-            html.A(
+            dcc.Link(
                 [
                     html.Span("←", className="mr-1.5 text-emerald-400 font-bold"),
                     html.Span("Voltar ao Mapa"),
@@ -49,7 +49,7 @@ def render_sobre_header() -> html.Header:
                 className=(
                     "text-xs sm:text-sm font-medium text-slate-300 hover:text-white "
                     "px-3.5 py-2 rounded-xl bg-white/5 hover:bg-white/10 "
-                    "border border-white/10 transition-all flex items-center"
+                    "border border-white/10 transition-all flex items-center whitespace-nowrap shrink-0"
                 ),
             ),
         ],
@@ -381,7 +381,7 @@ def render_pix_support_card(cfg: Settings) -> html.Section:
                             html.Button(
                                 [
                                     html.Span("📋", className="mr-1.5"),
-                                    html.Span("Copiar Chave Pix"),
+                                    html.Span("Copiar Chave Pix", className="whitespace-nowrap"),
                                 ],
                                 id="btn-copy-pix",
                                 n_clicks=0,
@@ -420,10 +420,10 @@ def render_sobre_footer() -> html.Footer:
                         "Radar Eleitoral — Projeto cívico independente de código aberto.",
                         className="text-xs text-slate-400",
                     ),
-                    html.A(
+                    dcc.Link(
                         "← Voltar ao Início",
                         href="/",
-                        className="text-xs text-emerald-400 hover:text-emerald-300 font-semibold transition-colors",
+                        className="text-xs text-emerald-400 hover:text-emerald-300 font-semibold transition-colors whitespace-nowrap",
                     ),
                 ],
                 className="flex flex-col sm:flex-row items-center justify-between gap-2 border-t border-white/10 pt-6",

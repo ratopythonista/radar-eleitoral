@@ -241,17 +241,18 @@ def render_home_content(selected_cargo: str, selected_uf: str) -> html.Div:
                             ),
                         ]
                     ),
-                    html.A(
+                    dcc.Link(
                         "Sobre o Projeto",
                         href="/sobre",
                         className=(
                             "text-xs sm:text-sm font-medium text-slate-400 hover:text-white "
-                            "px-3 py-1.5 rounded-lg hover:bg-white/5 transition-colors"
+                            "px-3 py-1.5 rounded-lg hover:bg-white/5 transition-colors "
+                            "whitespace-nowrap shrink-0"
                         ),
                     ),
                 ],
                 className=(
-                    f"flex items-center justify-between border-b {THEME['header_bg']} pb-4 mb-6"
+                    f"flex items-center justify-between gap-4 border-b {THEME['header_bg']} pb-4 mb-6"
                 ),
             ),
             # Barra de Seleção de Cargos
