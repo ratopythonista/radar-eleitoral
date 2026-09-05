@@ -6,7 +6,16 @@ from dash import Input, Output, State, clientside_callback, dcc, html
 from radar_eleitoral.config import Settings, settings
 from radar_eleitoral.pix import generate_pix_payload, generate_pix_qr_data_uri
 
-dash.register_page(__name__, path="/sobre", title="Radar Eleitoral - Sobre o Projeto")
+dash.register_page(
+    __name__,
+    path="/sobre",
+    title="Radar Eleitoral - Sobre o Projeto",
+    description=(
+        "Conheça os bastidores do Radar Eleitoral: automação jornalística, transparência "
+        "eleitoral, dados públicos do G1 e canal de apoio cívico via Pix."
+    ),
+    image="social-card.png",
+)
 
 THEME = {
     "accent": "bg-emerald-500",

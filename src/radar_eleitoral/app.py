@@ -2,6 +2,7 @@
 
 import dash
 from dash import html
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 CUSTOM_INDEX_STRING = """<!DOCTYPE html>
 <html lang="pt-BR" class="h-full bg-[#040f0c]">
@@ -9,8 +10,13 @@ CUSTOM_INDEX_STRING = """<!DOCTYPE html>
         {%metas%}
         <title>{%title%}</title>
         {%favicon%}
+        <link rel="manifest" href="/assets/manifest.json">
+        <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+        <link rel="apple-touch-icon" href="/assets/icon-192.png">
         {%css%}
         <script src="https://cdn.tailwindcss.com"></script>
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
         <meta name="format-detection" content="telephone=no">
         <meta name="robots" content="index, follow">
         <style>
@@ -66,10 +72,13 @@ GLOBAL_META_TAGS = [
 ]
 
 app = dash.Dash(
-    __name__,
+    "radar_eleitoral",
     use_pages=True,
-    pages_folder="pages",
     title="Radar Eleitoral | Cobertura de Candidaturas",
+    description=(
+        "Vitrine interativa de candidaturas e matérias jornalísticas automatizadas "
+        "do G1 por estado e cargo em todo o Brasil."
+    ),
     update_title="Carregando...",
     meta_tags=GLOBAL_META_TAGS,
     index_string=CUSTOM_INDEX_STRING,
@@ -77,6 +86,16 @@ app = dash.Dash(
 )
 
 server = app.server
+
+# Configuração de ProxyFix essencial para o Render.com e Granian:
+# Garante URLs absolutas HTTPS em og:image, og:url e canonical quando atrás de reverse proxy
+server.wsgi_app = ProxyFix(  # type: ignore[method-assign]
+    server.wsgi_app,
+    x_for=1,
+    x_proto=1,
+    x_host=1,
+    x_prefix=1,
+)
 
 app.layout = html.Div(
     [

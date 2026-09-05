@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#061c16" />
+      <stop offset="50%" stop-color="#040f0c" />
+      <stop offset="100%" stop-color="#020806" />
+    </linearGradient>
+    <linearGradient id="emeraldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34d399" />
+      <stop offset="50%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+    <linearGradient id="mintGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a7f3d0" />
+      <stop offset="100%" stop-color="#6ee7b7" />
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.35" />
+      <stop offset="100%" stop-color="#10b981" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="sweep" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6ee7b7" stop-opacity="0.3" />
+      <stop offset="100%" stop-color="#10b981" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background squircle -->
+  <rect width="512" height="512" rx="112" fill="url(#bgGrad)" stroke="#10b981" stroke-opacity="0.3" stroke-width="6" />
+
+  <!-- Ambient glow -->
+  <circle cx="256" cy="256" r="210" fill="url(#glow)" />
+
+  <!-- Radar grid rings -->
+  <circle cx="256" cy="256" r="190" fill="none" stroke="#10b981" stroke-opacity="0.15" stroke-width="2" stroke-dasharray="4 6" />
+  <circle cx="256" cy="256" r="135" fill="none" stroke="#10b981" stroke-opacity="0.25" stroke-width="2" />
+  <circle cx="256" cy="256" r="80" fill="none" stroke="#10b981" stroke-opacity="0.35" stroke-width="2" />
+
+  <!-- Radar crosshairs -->
+  <line x1="256" y1="56" x2="256" y2="456" stroke="#10b981" stroke-opacity="0.2" stroke-width="2" />
+  <line x1="56" y1="256" x2="456" y2="256" stroke="#10b981" stroke-opacity="0.2" stroke-width="2" />
+
+  <!-- Radar sweep sector (upper right 45-degree angle) -->
+  <path d="M 256 256 L 391 121 A 190 190 0 0 0 256 66 Z" fill="url(#sweep)" />
+
+  <!-- Blip pulse points -->
+  <circle cx="340" cy="180" r="8" fill="#6ee7b7">
+    <animate attributeName="opacity" values="1;0.3;1" dur="2.4s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="340" cy="180" r="16" fill="none" stroke="#6ee7b7" stroke-width="2" opacity="0.6">
+    <animate attributeName="r" values="8;24" dur="2.4s" repeatCount="indefinite" />
+    <animate attributeName="opacity" values="0.8;0" dur="2.4s" repeatCount="indefinite" />
+  </circle>
+
+  <circle cx="180" cy="320" r="6" fill="#34d399" opacity="0.85" />
+  <circle cx="310" cy="310" r="5" fill="#10b981" opacity="0.7" />
+
+  <!-- Central Electoral Beacon / Radar Node -->
+  <circle cx="256" cy="256" r="32" fill="#040f0c" stroke="url(#emeraldGrad)" stroke-width="5" />
+  <circle cx="256" cy="256" r="16" fill="url(#mintGrad)" />
+  <circle cx="256" cy="256" r="6" fill="#ffffff" />
+</svg>

@@ -6,7 +6,16 @@ from dash import ALL, Input, Output, State, callback, ctx, dcc, html
 from radar_eleitoral.candidaturas import CARGOS, HeroData, get_hero_data
 from radar_eleitoral.map_utils import create_brazil_map
 
-dash.register_page(__name__, path="/", title="Radar Eleitoral - Início")
+dash.register_page(
+    __name__,
+    path="/",
+    title="Radar Eleitoral | Cobertura G1 por Estado e Cargo",
+    description=(
+        "Explore matérias jornalísticas automatizadas do G1 sobre candidaturas eleitorais "
+        "em todo o Brasil. Mapa interativo por estado e cargo."
+    ),
+    image="social-card.png",
+)
 
 # Estilos da paleta Esmeralda Transparência
 THEME = {

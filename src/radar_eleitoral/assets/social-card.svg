@@ -1,0 +1,169 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#07221b" />
+      <stop offset="40%" stop-color="#040f0c" />
+      <stop offset="100%" stop-color="#020806" />
+    </linearGradient>
+
+    <!-- Emerald Gradients -->
+    <linearGradient id="primaryGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34d399" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+
+    <linearGradient id="mintGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6ee7b7" />
+      <stop offset="100%" stop-color="#a7f3d0" />
+    </linearGradient>
+
+    <!-- Ambient Glows -->
+    <radialGradient id="glowCenter" cx="75%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#040f0c" stop-opacity="0" />
+    </radialGradient>
+
+    <radialGradient id="cardGlow" cx="20%" cy="20%" r="70%">
+      <stop offset="0%" stop-color="#0d382c" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#061a14" stop-opacity="0.2" />
+    </radialGradient>
+
+    <filter id="dropShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.6" />
+    </filter>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="1200" height="630" fill="url(#bgGradient)" />
+
+  <!-- Background Grid Pattern -->
+  <g opacity="0.06" stroke="#6ee7b7" stroke-width="1">
+    <line x1="0" y1="70" x2="1200" y2="70" />
+    <line x1="0" y1="140" x2="1200" y2="140" />
+    <line x1="0" y1="210" x2="1200" y2="210" />
+    <line x1="0" y1="280" x2="1200" y2="280" />
+    <line x1="0" y1="350" x2="1200" y2="350" />
+    <line x1="0" y1="420" x2="1200" y2="420" />
+    <line x1="0" y1="490" x2="1200" y2="490" />
+    <line x1="0" y1="560" x2="1200" y2="560" />
+
+    <line x1="100" y1="0" x2="100" y2="630" />
+    <line x1="200" y1="0" x2="200" y2="630" />
+    <line x1="300" y1="0" x2="300" y2="630" />
+    <line x1="400" y1="0" x2="400" y2="630" />
+    <line x1="500" y1="0" x2="500" y2="630" />
+    <line x1="600" y1="0" x2="600" y2="630" />
+    <line x1="700" y1="0" x2="700" y2="630" />
+    <line x1="800" y1="0" x2="800" y2="630" />
+    <line x1="900" y1="0" x2="900" y2="630" />
+    <line x1="1000" y1="0" x2="1000" y2="630" />
+    <line x1="1100" y1="0" x2="1100" y2="630" />
+  </g>
+
+  <!-- Ambient Glow on Map side -->
+  <circle cx="900" cy="315" r="380" fill="url(#glowCenter)" />
+
+  <!-- Radar Scope Graphic on Right Side -->
+  <g transform="translate(900, 315)">
+    <!-- Radar concentric rings -->
+    <circle cx="0" cy="0" r="240" fill="none" stroke="#10b981" stroke-opacity="0.12" stroke-width="2" stroke-dasharray="6 6" />
+    <circle cx="0" cy="0" r="180" fill="none" stroke="#10b981" stroke-opacity="0.2" stroke-width="2" />
+    <circle cx="0" cy="0" r="120" fill="none" stroke="#10b981" stroke-opacity="0.3" stroke-width="2" />
+    <circle cx="0" cy="0" r="60" fill="none" stroke="#10b981" stroke-opacity="0.4" stroke-width="2" />
+
+    <!-- Crosshairs -->
+    <line x1="-250" y1="0" x2="250" y2="0" stroke="#10b981" stroke-opacity="0.25" stroke-width="2" />
+    <line x1="0" y1="-250" x2="0" y2="250" stroke="#10b981" stroke-opacity="0.25" stroke-width="2" />
+
+    <!-- Sweep cone -->
+    <path d="M 0 0 L 169 -169 A 240 240 0 0 0 0 -240 Z" fill="#6ee7b7" fill-opacity="0.15" />
+
+    <!-- State Blips (Points on Brazil map coordinates roughly) -->
+    <!-- SP -->
+    <circle cx="20" cy="70" r="7" fill="#6ee7b7" />
+    <circle cx="20" cy="70" r="15" fill="none" stroke="#6ee7b7" stroke-width="2" opacity="0.6" />
+    <text x="35" y="75" fill="#a7f3d0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700">SP</text>
+
+    <!-- RJ -->
+    <circle cx="65" cy="60" r="6" fill="#34d399" />
+    <text x="77" y="65" fill="#6ee7b7" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="600">RJ</text>
+
+    <!-- MG -->
+    <circle cx="35" cy="20" r="6" fill="#34d399" />
+    <text x="47" y="25" fill="#6ee7b7" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="600">MG</text>
+
+    <!-- DF / BR Beacon -->
+    <circle cx="-10" cy="-20" r="10" fill="#040f0c" stroke="#34d399" stroke-width="3" />
+    <circle cx="-10" cy="-20" r="5" fill="#6ee7b7" />
+    <text x="-55" y="-15" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="800">BR / DF</text>
+
+    <!-- BA -->
+    <circle cx="85" cy="-60" r="6" fill="#10b981" />
+    <text x="97" y="-55" fill="#6ee7b7" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="600">BA</text>
+
+    <!-- AM -->
+    <circle cx="-130" cy="-120" r="6" fill="#10b981" />
+    <text x="-120" y="-115" fill="#6ee7b7" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="600">AM</text>
+
+    <!-- RS -->
+    <circle cx="-15" cy="150" r="6" fill="#10b981" />
+    <text x="-3" y="155" fill="#6ee7b7" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="600">RS</text>
+
+    <!-- Center Radar Core -->
+    <circle cx="0" cy="0" r="16" fill="#040f0c" stroke="#10b981" stroke-width="3" />
+    <circle cx="0" cy="0" r="6" fill="#34d399" />
+  </g>
+
+  <!-- Left Content Column (Inside Safe Zone: x=100..700, y=75..550) -->
+  <g transform="translate(100, 90)">
+    <!-- Badge Top: Editorial Source -->
+    <g>
+      <rect width="250" height="34" rx="17" fill="#062e22" stroke="#10b981" stroke-opacity="0.4" stroke-width="1.5" />
+      <circle cx="20" cy="17" r="5" fill="#10b981" />
+      <text x="35" y="22" fill="#6ee7b7" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="700" letter-spacing="1">FONTE: G1 (AUTOMAÇÃO)</text>
+    </g>
+
+    <!-- Main Title -->
+    <text x="0" y="105" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="64" font-weight="900" letter-spacing="-1">
+      Radar Eleitoral
+    </text>
+
+    <!-- Colored Accent Subheading -->
+    <text x="0" y="152" fill="url(#mintGrad)" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="24" font-weight="700" letter-spacing="0.5">
+      Vitrine Interativa de Candidaturas &amp; Matérias do G1
+    </text>
+
+    <!-- Description Paragraph -->
+    <text x="0" y="200" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="400">
+      <tspan x="0" dy="0">Navegue pelo mapa do Brasil por estado e cargo para acessar reportagens</tspan>
+      <tspan x="0" dy="28">jornalísticas oficiais geradas por IA e validadas pela redação do G1.</tspan>
+    </text>
+
+    <!-- Metric Feature Badges / Pills -->
+    <g transform="translate(0, 265)">
+      <!-- Pill 1: 27 UFs -->
+      <rect x="0" y="0" width="130" height="42" rx="10" fill="#091f18" stroke="#10b981" stroke-opacity="0.3" stroke-width="1" />
+      <text x="20" y="26" fill="#34d399" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="800">27 UFs + BR</text>
+
+      <!-- Pill 2: Cargos -->
+      <rect x="145" y="0" width="190" height="42" rx="10" fill="#091f18" stroke="#10b981" stroke-opacity="0.3" stroke-width="1" />
+      <text x="165" y="26" fill="#e2e8f0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="600">5 Cargos Oficiais</text>
+
+      <!-- Pill 3: 109 URLs -->
+      <rect x="350" y="0" width="180" height="42" rx="10" fill="#091f18" stroke="#10b981" stroke-opacity="0.3" stroke-width="1" />
+      <text x="370" y="26" fill="#e2e8f0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="600">109 Matérias G1</text>
+    </g>
+
+    <!-- Footer Attribution / Author Line -->
+    <g transform="translate(0, 360)">
+      <line x1="0" y1="0" x2="620" y2="0" stroke="#10b981" stroke-opacity="0.2" stroke-width="1" />
+      <text x="0" y="32" fill="#64748b" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="500">
+        Desenvolvido por <tspan fill="#a7f3d0" font-weight="700">Rodrigo Guimarães Araújo</tspan> • Projeto Cívico Open Source
+      </text>
+    </g>
+  </g>
+
+  <!-- Border Frame Accent -->
+  <rect x="16" y="16" width="1168" height="598" rx="20" fill="none" stroke="#10b981" stroke-opacity="0.2" stroke-width="2" />
+</svg>
