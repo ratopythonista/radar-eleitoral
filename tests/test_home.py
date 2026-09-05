@@ -3,8 +3,8 @@
 import pytest
 
 import radar_eleitoral.app  # noqa: F401
+from radar_eleitoral.candidaturas import CARGOS, UF_NAMES, get_hero_data
 from radar_eleitoral.map_utils import create_brazil_map, load_brazil_geojson
-from radar_eleitoral.mock_data import CARGOS, UF_NAMES, get_hero_data
 from radar_eleitoral.pages.home import layout, render_active_content, render_home_content
 
 
@@ -20,8 +20,8 @@ def test_load_brazil_geojson() -> None:
     assert "DF" in siglas
 
 
-def test_mock_data_presidente() -> None:
-    """Valida contrato dos dados para Presidente (âmbito nacional)."""
+def test_candidaturas_data_presidente() -> None:
+    """Valida contrato dos dados reais para Presidente (âmbito nacional)."""
     hero = get_hero_data("BR", "Presidente")
     assert hero.is_nacional is True
     assert hero.uf == "BR"
@@ -32,8 +32,8 @@ def test_mock_data_presidente() -> None:
 
 
 @pytest.mark.parametrize("uf", ["SP", "RJ", "MG", "BA", "RS"])
-def test_mock_data_estados(uf: str) -> None:
-    """Valida geração de dados para os estados com mock configurado."""
+def test_candidaturas_data_estados(uf: str) -> None:
+    """Valida dados para os estados com dataset real carregado."""
     hero = get_hero_data(uf, "Governador")
     assert hero.is_nacional is False
     assert hero.uf == uf
@@ -43,11 +43,11 @@ def test_mock_data_estados(uf: str) -> None:
     assert "g1.globo.com" in hero.url_g1
 
 
-def test_mock_data_fallback() -> None:
-    """Valida fallback dinâmico determinístico para estados e cargos genéricos."""
-    hero = get_hero_data("AC", "Deputado Federal")
+def test_candidaturas_data_fallback() -> None:
+    """Valida fallback dinâmico determinístico para cargos não cadastrados."""
+    hero = get_hero_data("AC", "Cargo Customizado")
     assert hero.uf == "AC"
-    assert hero.cargo == "Deputado Federal"
+    assert hero.cargo == "Cargo Customizado"
     assert hero.candidaturas > 0
     assert "Acre" in hero.titulo
 

@@ -3,8 +3,8 @@
 import dash
 from dash import ALL, Input, Output, State, callback, ctx, dcc, html
 
+from radar_eleitoral.candidaturas import CARGOS, HeroData, get_hero_data
 from radar_eleitoral.map_utils import create_brazil_map
-from radar_eleitoral.mock_data import CARGOS, HeroData, get_hero_data
 
 dash.register_page(__name__, path="/", title="Radar Eleitoral - Início")
 

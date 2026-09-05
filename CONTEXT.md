@@ -9,7 +9,7 @@ Registro eleitoral público de um indivíduo concorrendo a um cargo político em
 _Avoid: Político, Eleito._
 
 ### Cargo
-Posto eletivo em disputa (ex.: Governador, Senador, Deputado Federal, Deputado Estadual, Presidente). Possui abrangência estadual ou nacional.
+Posto eletivo em disputa (ex.: Governador, Senador, Deputado Federal, Deputado Estadual, Deputado Distrital, Presidente). Possui abrangência distrital, estadual ou nacional.
 _Avoid: Função, Emprego._
 
 ### UF (Unidade da Federação)
@@ -42,7 +42,7 @@ _Avoid: Termos de Uso genéricos, Nota de rodapé oculta._
 
 ## Dependências
 
-- **radar-eleitoral → data/candidaturas.csv**: Aplicação consome dataset tabular local estático (contrato: colunas `uf`, `cargo`, `url_g1`, `resumo`).
+- **radar-eleitoral → data/candidaturas.csv**: Aplicação consome dataset tabular local estático (contrato: colunas `uf`, `cargo`, `url_g1`, `resumo`, `candidaturas`).
 - **radar-eleitoral → G1 (Globo)**: Aplicação redireciona o usuário para links canônicos públicos do portal G1 via navegação web nativa (`target="_blank"`).
 - **radar-eleitoral → IBGE / GeoJSON**: Renderização do mapa consome malha vetorial simplificada dos estados brasileiros em GeoJSON (<100KB).
 - **radar-eleitoral → Render.com**: Deploy contínuo automatizado do container Docker gerenciado pelo Granian.

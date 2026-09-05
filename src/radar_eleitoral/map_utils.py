@@ -9,7 +9,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
-from radar_eleitoral.mock_data import UF_NAMES
+from radar_eleitoral.candidaturas import UF_NAMES
 
 GEOJSON_PATH = Path("data/brazil_states.json")
 
