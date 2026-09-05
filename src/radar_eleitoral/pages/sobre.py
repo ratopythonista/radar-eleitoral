@@ -1,4 +1,4 @@
-"""Página Sobre do Radar Eleitoral - Narrativa, Autoria, IA e Apoio Pix."""
+"""Página Sobre do Radar Eleitoral - Narrativa, Autoria e Apoio Pix."""
 
 import dash
 from dash import Input, Output, State, clientside_callback, dcc, html
@@ -27,16 +27,11 @@ def render_sobre_header() -> html.Header:
                         [
                             html.Span(
                                 "RADAR",
-                                className=(
-                                    "font-black text-xl tracking-tight mr-1.5 "
-                                    f"{THEME['accent_text']}"
-                                ),
+                                className=f"font-black text-xl tracking-tight mr-1.5 {THEME['accent_text']}",
                             ),
                             html.Span(
                                 "Eleitoral",
-                                className=(
-                                    "text-xl font-black tracking-tight text-white inline-block"
-                                ),
+                                className="text-xl font-black tracking-tight text-white inline-block",
                             ),
                         ],
                         href="/",
@@ -72,27 +67,19 @@ def render_hero_civico() -> html.Section:
                         "TRANSPARÊNCIA E CIDADANIA",
                         className=(
                             "text-[11px] font-extrabold uppercase tracking-widest px-3 py-1 "
-                            "rounded-full bg-emerald-500/10 text-emerald-300 "
-                            "border border-emerald-500/30"
+                            "rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/30"
                         ),
                     ),
                     html.H1(
                         "Democratizando o Acesso à Cobertura Eleitoral do Brasil",
-                        className=(
-                            "text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight "
-                            "text-white mt-4 mb-4"
-                        ),
+                        className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white mt-4 mb-4",
                     ),
                     html.P(
-                        (
-                            "O Radar Eleitoral é uma plataforma cívica e interativa "
-                            "projetada para transformar a consulta de candidaturas e eleições "
-                            "gerais em uma experiência visual, acessível e direta. Ao integrar "
-                            "mapas interativos com o acervo de reportagens automatizadas do "
-                            "portal G1, a plataforma permite que cidadãos, jornalistas e "
-                            "pesquisadores explorem os cenários eleitorais de todos os estados "
-                            "brasileiros com facilidade e agilidade."
-                        ),
+                        "O Radar Eleitoral é uma plataforma cívica e interativa projetada para transformar "
+                        "a consulta de candidaturas e eleições gerais em uma experiência visual, acessível e direta. "
+                        "Ao integrar mapas interativos com o acervo de reportagens automatizadas do portal G1, a plataforma "
+                        "permite que cidadãos, jornalistas e pesquisadores explorem os cenários eleitorais de todos os "
+                        "estados brasileiros com facilidade e agilidade.",
                         className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-3xl",
                     ),
                 ],
@@ -117,20 +104,14 @@ def render_disclaimer_card() -> html.Div:
                         [
                             html.H2(
                                 "Nota de Transparência e Independência",
-                                className=(
-                                    "text-sm font-bold text-amber-300 uppercase tracking-wider mb-1"
-                                ),
+                                className="text-sm font-bold text-amber-300 uppercase tracking-wider mb-1",
                             ),
                             html.P(
-                                (
-                                    "O Radar Eleitoral é um projeto cívico e de código aberto "
-                                    "desenvolvido de forma estritamente pessoal e independente "
-                                    "por Rodrigo Guimarães Araújo. Este projeto não possui "
-                                    "qualquer afiliação institucional, vínculo oficial, endosso "
-                                    "ou incentivo financeiro do Grupo Globo ou do portal G1. "
-                                    "Todas as matérias jornalísticas exibidas pertencem ao G1 e "
-                                    "são acessadas exclusivamente por links públicos canônicos."
-                                ),
+                                "O Radar Eleitoral é um projeto cívico e de código aberto desenvolvido de "
+                                "forma estritamente pessoal e independente por Rodrigo Guimarães Araújo. "
+                                "Este projeto não possui qualquer afiliação institucional, vínculo oficial, endosso "
+                                "ou incentivo financeiro do Grupo Globo ou do portal G1. Todas as matérias jornalísticas "
+                                "exibidas pertencem ao G1 e são acessadas exclusivamente por links públicos canônicos.",
                                 className="text-xs sm:text-sm text-slate-300 leading-relaxed",
                             ),
                         ],
@@ -140,224 +121,7 @@ def render_disclaimer_card() -> html.Div:
                 className="flex items-start",
             )
         ],
-        className=(
-            "p-5 rounded-2xl bg-amber-500/5 border border-amber-500/30 "
-            "shadow-lg backdrop-blur-sm mb-10"
-        ),
-    )
-
-
-def render_ia_storytelling() -> html.Section:
-    """Apresenta a tríade da automação jornalística: Escala, Pipeline Ético e Métricas."""
-    return html.Section(
-        [
-            html.Div(
-                [
-                    html.Span(
-                        "ENGENHARIA E ÉTICA",
-                        className="text-xs font-bold uppercase tracking-widest text-emerald-400",
-                    ),
-                    html.H2(
-                        "A Inteligência Artificial a Serviço do Jornalismo de Dados",
-                        className="text-xl sm:text-3xl font-black text-white mt-1 mb-4",
-                    ),
-                    html.P(
-                        (
-                            "Cobrir eleições em um país continental é um desafio de escala sem "
-                            "precedentes. A automação editorial aplicada a dados eleitorais "
-                            "públicos representa um marco na combinação entre tecnologia de "
-                            "ponta e responsabilidade editorial."
-                        ),
-                        className=(
-                            "text-sm sm:text-base text-slate-300 leading-relaxed max-w-3xl mb-8"
-                        ),
-                    ),
-                ]
-            ),
-            html.Div(
-                [
-                    # Coluna 1: O Desafio da Escala
-                    html.Div(
-                        [
-                            html.Div(
-                                "01",
-                                className="text-2xl font-black text-emerald-500/40 mb-2",
-                            ),
-                            html.H3(
-                                "O Desafio da Escala Continental",
-                                className="text-base font-bold text-white mb-2",
-                            ),
-                            html.P(
-                                (
-                                    "Processar simultaneamente centenas de candidaturas "
-                                    "registradas em 27 Unidades da Federação para os cargos de "
-                                    "Presidente, Governador e Senador exige pipelines de dados "
-                                    "robustos, capazes de transformar bases brutas do TSE em "
-                                    "resumos precisos e prontos para consulta."
-                                ),
-                                className="text-xs sm:text-sm text-slate-400 leading-relaxed",
-                            ),
-                        ],
-                        className=(
-                            f"p-5 rounded-2xl {THEME['card_bg']} border {THEME['card_border']} "
-                            "hover:border-emerald-500/30 transition-all flex flex-col "
-                            "justify-between"
-                        ),
-                    ),
-                    # Coluna 2: Human-in-the-Loop
-                    html.Div(
-                        [
-                            html.Div(
-                                "02",
-                                className="text-2xl font-black text-emerald-500/40 mb-2",
-                            ),
-                            html.H3(
-                                "Pipeline Ético e Human-in-the-Loop",
-                                className="text-base font-bold text-white mb-2",
-                            ),
-                            html.P(
-                                (
-                                    "A inteligência artificial estrutura e rascunha as narrativas "
-                                    "com agilidade, mas a verdade factual e o rigor editorial são "
-                                    "inegociáveis. Todas as matérias geradas passam por revisão e "
-                                    "chancela de jornalistas profissionais humanos antes de serem "
-                                    "publicadas, unindo automação à ética jornalística."
-                                ),
-                                className="text-xs sm:text-sm text-slate-400 leading-relaxed",
-                            ),
-                        ],
-                        className=(
-                            f"p-5 rounded-2xl {THEME['card_bg']} border {THEME['card_border']} "
-                            "hover:border-emerald-500/30 transition-all flex flex-col "
-                            "justify-between"
-                        ),
-                    ),
-                    # Coluna 3: Acesso Cívico
-                    html.Div(
-                        [
-                            html.Div(
-                                "03",
-                                className="text-2xl font-black text-emerald-500/40 mb-2",
-                            ),
-                            html.H3(
-                                "Acesso Público e Navegabilidade",
-                                className="text-base font-bold text-white mb-2",
-                            ),
-                            html.P(
-                                (
-                                    "O Radar Eleitoral fecha o ciclo cívico: em vez de links "
-                                    "dispersos, oferece uma vitrine unificada onde o eleitor "
-                                    "clica no seu estado e tem acesso imediato à matéria completa "
-                                    "e oficial do portal G1 com apenas um toque."
-                                ),
-                                className="text-xs sm:text-sm text-slate-400 leading-relaxed",
-                            ),
-                        ],
-                        className=(
-                            f"p-5 rounded-2xl {THEME['card_bg']} border {THEME['card_border']} "
-                            "hover:border-emerald-500/30 transition-all flex flex-col "
-                            "justify-between"
-                        ),
-                    ),
-                ],
-                className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8",
-            ),
-            # Cartões de Métricas de Impacto
-            html.Div(
-                [
-                    html.Div(
-                        [
-                            html.Span(
-                                "27",
-                                className="text-3xl sm:text-4xl font-black text-emerald-400",
-                            ),
-                            html.Span(
-                                "Unidades Federativas",
-                                className=(
-                                    "text-xs font-bold uppercase tracking-wider text-slate-400 mt-1"
-                                ),
-                            ),
-                            html.Span(
-                                "Cobertura integral de todos os estados e DF",
-                                className="text-[11px] text-slate-500 mt-0.5",
-                            ),
-                        ],
-                        className=(
-                            f"p-4 rounded-xl {THEME['card_bg']} border {THEME['card_border']} "
-                            "flex flex-col items-center text-center"
-                        ),
-                    ),
-                    html.Div(
-                        [
-                            html.Span(
-                                "2022",
-                                className="text-3xl sm:text-4xl font-black text-emerald-400",
-                            ),
-                            html.Span(
-                                "Eleições Gerais",
-                                className=(
-                                    "text-xs font-bold uppercase tracking-wider text-slate-400 mt-1"
-                                ),
-                            ),
-                            html.Span(
-                                "O marco histórico da cobertura automatizada",
-                                className="text-[11px] text-slate-500 mt-0.5",
-                            ),
-                        ],
-                        className=(
-                            f"p-4 rounded-xl {THEME['card_bg']} border {THEME['card_border']} "
-                            "flex flex-col items-center text-center"
-                        ),
-                    ),
-                    html.Div(
-                        [
-                            html.Span(
-                                "100%",
-                                className="text-3xl sm:text-4xl font-black text-emerald-400",
-                            ),
-                            html.Span(
-                                "Human-in-the-Loop",
-                                className=(
-                                    "text-xs font-bold uppercase tracking-wider text-slate-400 mt-1"
-                                ),
-                            ),
-                            html.Span(
-                                "Curadoria e validação jornalística rigorosa",
-                                className="text-[11px] text-slate-500 mt-0.5",
-                            ),
-                        ],
-                        className=(
-                            f"p-4 rounded-xl {THEME['card_bg']} border {THEME['card_border']} "
-                            "flex flex-col items-center text-center"
-                        ),
-                    ),
-                    html.Div(
-                        [
-                            html.Span(
-                                "0 R$",
-                                className="text-3xl sm:text-4xl font-black text-emerald-400",
-                            ),
-                            html.Span(
-                                "Acesso Livre",
-                                className=(
-                                    "text-xs font-bold uppercase tracking-wider text-slate-400 mt-1"
-                                ),
-                            ),
-                            html.Span(
-                                "Ferramenta cívica aberta e sem paywall",
-                                className="text-[11px] text-slate-500 mt-0.5",
-                            ),
-                        ],
-                        className=(
-                            f"p-4 rounded-xl {THEME['card_bg']} border {THEME['card_border']} "
-                            "flex flex-col items-center text-center"
-                        ),
-                    ),
-                ],
-                className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10",
-            ),
-        ],
-        className="mb-8",
+        className="p-5 rounded-2xl bg-amber-500/5 border border-amber-500/30 shadow-lg backdrop-blur-sm mb-10",
     )
 
 
@@ -380,17 +144,11 @@ def render_future_vision() -> html.Section:
                                         className="text-lg font-bold text-white",
                                     ),
                                     html.P(
-                                        (
-                                            "A tecnologia cívica não para. Estamos preparando a "
-                                            "expansão da cobertura para novos pleitos, novas "
-                                            "visualizações analíticas de dados e ferramentas "
-                                            "enriquecidas de comparação pública. Vem mais esse "
-                                            "ano — continue acompanhando a evolução do "
-                                            "código aberto."
-                                        ),
-                                        className=(
-                                            "text-xs sm:text-sm text-slate-300 mt-1 leading-relaxed"
-                                        ),
+                                        "A tecnologia cívica não para. Estamos preparando a expansão da "
+                                        "cobertura para novos pleitos, novas visualizações analíticas de dados e "
+                                        "ferramentas enriquecidas de comparação pública. Vem mais esse ano — "
+                                        "continue acompanhando a evolução do código aberto.",
+                                        className="text-xs sm:text-sm text-slate-300 mt-1 leading-relaxed",
                                     ),
                                 ]
                             ),
@@ -427,36 +185,21 @@ def render_author_card(cfg: Settings) -> html.Section:
                                 [
                                     html.Span(
                                         "DESENVOLVEDOR & AUTOR",
-                                        className=(
-                                            "text-[10px] font-extrabold uppercase tracking-widest "
-                                            "text-emerald-400"
-                                        ),
+                                        className="text-[10px] font-extrabold uppercase tracking-widest text-emerald-400",
                                     ),
                                     html.H3(
                                         cfg.author_name,
-                                        className=(
-                                            "text-xl sm:text-2xl font-black text-white mt-0.5 mb-1"
-                                        ),
+                                        className="text-xl sm:text-2xl font-black text-white mt-0.5 mb-1",
                                     ),
                                     html.P(
                                         cfg.author_headline,
-                                        className=(
-                                            "text-xs sm:text-sm font-medium "
-                                            "text-emerald-300/90 mb-3"
-                                        ),
+                                        className="text-xs sm:text-sm font-medium text-emerald-300/90 mb-3",
                                     ),
                                     html.P(
-                                        (
-                                            "Engenheiro apaixonado por arquiteturas escaláveis, "
-                                            "inteligência artificial e tecnologia a serviço da "
-                                            "transparência cívica. Idealizou e desenvolveu o Radar "
-                                            "Eleitoral como iniciativa de código aberto para "
-                                            "aproximar dados e sociedade."
-                                        ),
-                                        className=(
-                                            "text-xs sm:text-sm text-slate-400 leading-relaxed "
-                                            "max-w-2xl"
-                                        ),
+                                        "Engenheiro apaixonado por arquiteturas escaláveis, inteligência artificial "
+                                        "e tecnologia a serviço da transparência cívica. Idealizou e desenvolveu o "
+                                        "Radar Eleitoral como iniciativa de código aberto para aproximar dados e sociedade.",
+                                        className="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-2xl",
                                     ),
                                     # Links Sociais
                                     html.Div(
@@ -467,11 +210,9 @@ def render_author_card(cfg: Settings) -> html.Section:
                                                 target="_blank",
                                                 rel="noopener noreferrer",
                                                 className=(
-                                                    "px-3 py-1.5 rounded-lg bg-white/5 "
-                                                    "hover:bg-white/10 border border-white/10 "
-                                                    "text-xs font-semibold text-slate-300 "
-                                                    "hover:text-white transition-all flex "
-                                                    "items-center"
+                                                    "px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 "
+                                                    "border border-white/10 text-xs font-semibold text-slate-300 "
+                                                    "hover:text-white transition-all flex items-center"
                                                 ),
                                             ),
                                             html.A(
@@ -480,11 +221,9 @@ def render_author_card(cfg: Settings) -> html.Section:
                                                 target="_blank",
                                                 rel="noopener noreferrer",
                                                 className=(
-                                                    "px-3 py-1.5 rounded-lg bg-white/5 "
-                                                    "hover:bg-white/10 border border-white/10 "
-                                                    "text-xs font-semibold text-slate-300 "
-                                                    "hover:text-white transition-all flex "
-                                                    "items-center"
+                                                    "px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 "
+                                                    "border border-white/10 text-xs font-semibold text-slate-300 "
+                                                    "hover:text-white transition-all flex items-center"
                                                 ),
                                             ),
                                             html.A(
@@ -493,11 +232,9 @@ def render_author_card(cfg: Settings) -> html.Section:
                                                 target="_blank",
                                                 rel="noopener noreferrer",
                                                 className=(
-                                                    "px-3 py-1.5 rounded-lg bg-white/5 "
-                                                    "hover:bg-white/10 border border-white/10 "
-                                                    "text-xs font-semibold text-slate-300 "
-                                                    "hover:text-white transition-all flex "
-                                                    "items-center"
+                                                    "px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 "
+                                                    "border border-white/10 text-xs font-semibold text-slate-300 "
+                                                    "hover:text-white transition-all flex items-center"
                                                 ),
                                             ),
                                             html.A(
@@ -506,11 +243,9 @@ def render_author_card(cfg: Settings) -> html.Section:
                                                 target="_blank",
                                                 rel="noopener noreferrer",
                                                 className=(
-                                                    "px-3 py-1.5 rounded-lg bg-white/5 "
-                                                    "hover:bg-white/10 border border-white/10 "
-                                                    "text-xs font-semibold text-slate-300 "
-                                                    "hover:text-white transition-all flex "
-                                                    "items-center"
+                                                    "px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 "
+                                                    "border border-white/10 text-xs font-semibold text-slate-300 "
+                                                    "hover:text-white transition-all flex items-center"
                                                 ),
                                             ),
                                         ],
@@ -523,10 +258,7 @@ def render_author_card(cfg: Settings) -> html.Section:
                         className="flex flex-col sm:flex-row items-start sm:items-center",
                     )
                 ],
-                className=(
-                    f"p-6 sm:p-8 rounded-2xl {THEME['card_bg']} border {THEME['card_border']} "
-                    "shadow-xl mb-12"
-                ),
+                className=f"p-6 sm:p-8 rounded-2xl {THEME['card_bg']} border {THEME['card_border']} shadow-xl mb-12",
             )
         ]
     )
@@ -556,26 +288,18 @@ def render_pix_support_card(cfg: Settings) -> html.Section:
                         [
                             html.Span(
                                 "SUSTENTABILIDADE DO PROJETO",
-                                className=(
-                                    "text-[11px] font-extrabold uppercase tracking-widest "
-                                    "text-emerald-400"
-                                ),
+                                className="text-[11px] font-extrabold uppercase tracking-widest text-emerald-400",
                             ),
                             html.H2(
                                 "Apoie a Continuidade do Radar Eleitoral",
                                 className="text-xl sm:text-3xl font-black text-white mt-1 mb-3",
                             ),
                             html.P(
-                                (
-                                    "O Radar Eleitoral é 100% gratuito, aberto e sem anúncios. "
-                                    "Para manter a infraestrutura de servidores em nuvem "
-                                    "(Render.com), o registro de domínio e as horas de manutenção "
-                                    "contínua, você pode fazer uma contribuição voluntária de "
-                                    "qualquer valor via Pix."
-                                ),
-                                className=(
-                                    "text-xs sm:text-sm text-slate-300 leading-relaxed max-w-xl"
-                                ),
+                                "O Radar Eleitoral é 100% gratuito, aberto e sem anúncios. "
+                                "Para manter a infraestrutura de servidores em nuvem (Render.com), "
+                                "o registro de domínio e as horas de manutenção contínua, você pode "
+                                "fazer uma contribuição voluntária de qualquer valor via Pix.",
+                                className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-xl",
                             ),
                             # Custos discriminados
                             html.Div(
@@ -633,10 +357,7 @@ def render_pix_support_card(cfg: Settings) -> html.Section:
                                     html.Img(
                                         src=qr_data_uri,
                                         alt="QR Code Pix para apoio ao Radar Eleitoral",
-                                        className=(
-                                            "w-48 h-48 sm:w-52 sm:h-52 rounded-xl bg-white "
-                                            "p-2 shadow-2xl"
-                                        ),
+                                        className="w-48 h-48 sm:w-52 sm:h-52 rounded-xl bg-white p-2 shadow-2xl",
                                     ),
                                 ],
                                 className="flex justify-center mb-4",
@@ -645,18 +366,13 @@ def render_pix_support_card(cfg: Settings) -> html.Section:
                                 [
                                     html.Span(
                                         "Chave Pix (E-mail):",
-                                        className=(
-                                            "text-[11px] font-bold text-slate-400 uppercase "
-                                            "tracking-wider block mb-1"
-                                        ),
+                                        className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1",
                                     ),
                                     html.Code(
                                         cfg.pix_key,
                                         className=(
-                                            "px-3 py-1.5 rounded-lg bg-black/40 border "
-                                            "border-white/15 text-xs sm:text-sm font-mono "
-                                            "text-emerald-300 select-all block text-center "
-                                            "break-all"
+                                            "px-3 py-1.5 rounded-lg bg-black/40 border border-white/15 "
+                                            "text-xs sm:text-sm font-mono text-emerald-300 select-all block text-center break-all"
                                         ),
                                     ),
                                 ],
@@ -670,35 +386,27 @@ def render_pix_support_card(cfg: Settings) -> html.Section:
                                 id="btn-copy-pix",
                                 n_clicks=0,
                                 className=(
-                                    "w-full py-2.5 px-4 rounded-xl bg-emerald-500 "
-                                    "hover:bg-emerald-400 text-slate-950 font-bold "
-                                    "text-xs sm:text-sm shadow-lg shadow-emerald-500/20 "
-                                    "hover:shadow-emerald-400/30 transition-all cursor-pointer "
-                                    "flex items-center justify-center"
+                                    "w-full py-2.5 px-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 "
+                                    "text-slate-950 font-bold text-xs sm:text-sm shadow-lg shadow-emerald-500/20 "
+                                    "hover:shadow-emerald-400/30 transition-all cursor-pointer flex items-center justify-center"
                                 ),
                             ),
                             html.Div(
                                 id="copy-pix-feedback",
-                                className=(
-                                    "text-center text-xs font-semibold text-emerald-400 "
-                                    "mt-2 min-h-[1.25rem] transition-all"
-                                ),
+                                className="text-center text-xs font-semibold text-emerald-400 mt-2 min-h-[1.25rem] transition-all",
                             ),
                             dcc.Store(id="store-pix-key", data=cfg.pix_key),
                         ],
                         className=(
-                            "w-full lg:w-72 p-5 rounded-2xl bg-black/40 border "
-                            "border-emerald-500/30 shadow-inner flex flex-col justify-center"
+                            "w-full lg:w-72 p-5 rounded-2xl bg-black/40 border border-emerald-500/30 "
+                            "shadow-inner flex flex-col justify-center"
                         ),
                     ),
                 ],
                 className="flex flex-col lg:flex-row items-center lg:items-start justify-between",
             )
         ],
-        className=(
-            f"p-6 sm:p-8 rounded-3xl {THEME['card_bg']} border {THEME['accent_border']} "
-            "shadow-2xl mb-12"
-        ),
+        className=f"p-6 sm:p-8 rounded-3xl {THEME['card_bg']} border {THEME['accent_border']} shadow-2xl mb-12",
     )
 
 
@@ -715,16 +423,10 @@ def render_sobre_footer() -> html.Footer:
                     html.A(
                         "← Voltar ao Início",
                         href="/",
-                        className=(
-                            "text-xs text-emerald-400 hover:text-emerald-300 font-semibold "
-                            "transition-colors"
-                        ),
+                        className="text-xs text-emerald-400 hover:text-emerald-300 font-semibold transition-colors",
                     ),
                 ],
-                className=(
-                    "flex flex-col sm:flex-row items-center justify-between gap-2 "
-                    "border-t border-white/10 pt-6"
-                ),
+                className="flex flex-col sm:flex-row items-center justify-between gap-2 border-t border-white/10 pt-6",
             )
         ],
         className="mt-auto",
@@ -738,7 +440,6 @@ def layout() -> html.Div:
             render_sobre_header(),
             render_hero_civico(),
             render_disclaimer_card(),
-            render_ia_storytelling(),
             render_future_vision(),
             render_author_card(settings),
             render_pix_support_card(settings),
@@ -772,4 +473,5 @@ clientside_callback(
     Output("copy-pix-feedback", "children"),
     Input("btn-copy-pix", "n_clicks"),
     State("store-pix-key", "data"),
+    prevent_initial_call=True,
 )

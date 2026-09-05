@@ -10,7 +10,6 @@ from radar_eleitoral.pages.sobre import (
     render_disclaimer_card,
     render_future_vision,
     render_hero_civico,
-    render_ia_storytelling,
     render_pix_support_card,
     render_sobre_header,
 )
@@ -65,15 +64,6 @@ def test_render_disclaimer_card():
     assert "Rodrigo Guimarães Araújo" in text
     assert "não possui qualquer afiliação institucional" in text
     assert "G1" in text
-
-
-def test_render_ia_storytelling():
-    """Storytelling de IA deve conter a tríade e métricas com human-in-the-loop."""
-    story = render_ia_storytelling()
-    text = " ".join(_find_strings(story))
-    assert "27" in text  # 27 UFs
-    assert "Human-in-the-Loop" in text
-    assert "2022" in text
 
 
 def test_render_future_vision():
@@ -140,4 +130,4 @@ def test_layout_callable():
     assert full_page is not None
     assert isinstance(full_page, html.Div)
     assert isinstance(full_page.children, list)
-    assert len(full_page.children) >= 7
+    assert len(full_page.children) == 7
