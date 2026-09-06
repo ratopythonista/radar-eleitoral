@@ -24,6 +24,10 @@ _Avoid: Notícia interna, Scraping, Raw data._
 Painel lateral/inferior de destaque na interface do mapa que exibe a introdução, o estado/cargo selecionado e um Call to Action claro para abrir a matéria correspondente no G1.
 _Avoid: Pop-up invasivo, Tooltip simples._
 
+
+### Cartograma de UFs
+Representação visual esquemática do Brasil estruturada em grade retangular uniforme (tile grid map), onde cada Unidade da Federação possui peso visual e alvo de clique equivalentes, preservando a vizinhança geográfica aproximada e viabilizando a seleção tátil acessível tanto em mobile quanto em desktop.
+_Avoid: Mapa coroplético geográfico, Mapa distorcido, Lista suspensa simples._
 ### Apoio
 Mecanismo voluntário de doação financeira de apoiadores exclusivamente via Pix (QR Code dinâmico/estático e chave copia-e-cola) na página `/sobre`.
 _Avoid: Cobrança, Assinatura, Paywall, Buy Me a Coffee._

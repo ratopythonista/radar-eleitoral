@@ -72,6 +72,23 @@ def test_render_home_content() -> None:
     assert content_gov is not None
 
 
+def test_render_home_content_grade_view() -> None:
+    """Garante que a Home renderiza com a visão de grade regional no desktop."""
+    content_grade = render_home_content("Governador", "SP", desktop_view="grade")
+    assert content_grade is not None
+
+    content_mapa = render_home_content("Governador", "DF", desktop_view="mapa")
+    assert content_mapa is not None
+
+
+def test_update_desktop_view_callback() -> None:
+    """Valida o callback de alternância da visão no Desktop."""
+    from radar_eleitoral.pages.home import update_desktop_view
+
+    # Teste de fallback / inicialização
+    assert update_desktop_view(0, 0, "mapa") == "mapa"
+
+
 def test_layout_structure() -> None:
     """Valida montagem estática do layout da Home."""
     assert layout is not None

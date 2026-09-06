@@ -47,5 +47,3 @@ Thumbs.db
 *.swp
 *~
 
-# Compiled assets
-src/radar_eleitoral/assets/tailwind.css

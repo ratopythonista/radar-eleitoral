@@ -13,3 +13,13 @@ def test_app_server_entrypoint() -> None:
 
     assert callable(server)
     assert hasattr(server, "wsgi_app")
+
+
+def test_healthz_endpoint() -> None:
+    """Verify that /healthz returns 200 OK for lightweight keep-alive monitors."""
+    from radar_eleitoral.app import server
+
+    client = server.test_client()
+    response = client.get("/healthz")
+    assert response.status_code == 200
+    assert response.data == b"OK"

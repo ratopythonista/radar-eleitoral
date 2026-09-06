@@ -42,7 +42,7 @@ file to judge whether a diff conforms — cite the specific rule below when flag
 
 - Source code lives strictly under `src/radar_eleitoral/`.
 - Multi-page Dash layout under `src/radar_eleitoral/pages/`:
-  - `home.py` (`/`): Interactive Brazil map + Cargo filter + Hero result card.
+  - `home.py` (`/`): Interactive Brazil map (desktop) & Regional Cartogram (mobile/desktop) + Cargo filter + Hero result card.
   - `sobre.py` (`/sobre`): Bio, achievements, social links, Pix QR Code & Buy Me a Coffee.
 - Public static assets in `src/radar_eleitoral/assets/` (styles, icons, PWA manifest).
 - Offline-safe public data in `data/candidaturas.csv`. No internal Globo secrets or credentials.

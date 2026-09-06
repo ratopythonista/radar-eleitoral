@@ -1,9 +1,18 @@
 """Página inicial do Radar Eleitoral - Layout Split-Screen Editorial (Esmeralda)."""
 
+from typing import Any
+
 import dash
 from dash import ALL, Input, Output, State, callback, ctx, dcc, html
 
 from radar_eleitoral.candidaturas import CARGOS, HeroData, get_hero_data
+from radar_eleitoral.cartograma import (
+    render_cartograma_regional,
+    render_nacional_button,
+    render_view_toggle,
+    resolve_cargo_selection,
+    resolve_smart_selection,
+)
 from radar_eleitoral.config import settings
 from radar_eleitoral.map_utils import create_brazil_map
 
@@ -192,8 +201,20 @@ def render_hero_card(hero: HeroData) -> html.Div:
     )
 
 
-def render_home_content(selected_cargo: str, selected_uf: str) -> html.Div:
-    """Renderiza o layout do Modelo A com os dados ativos."""
+def get_safe_triggered_id() -> Any:
+    """Retorna o ID do gatilho ativo do Dash com fallback seguro para testes de unidade."""
+    try:
+        return ctx.triggered_id
+    except Exception:
+        return None
+
+
+def render_home_content(
+    selected_cargo: str,
+    selected_uf: str,
+    desktop_view: str = "mapa",
+) -> html.Div:
+    """Renderiza o layout do Radar Eleitoral com suporte a bifurcação Mobile e Desktop."""
     hero = get_hero_data(selected_uf, selected_cargo)
     fig = create_brazil_map(selected_uf, selected_cargo)
 
@@ -208,6 +229,14 @@ def render_home_content(selected_cargo: str, selected_uf: str) -> html.Div:
     label_visao = (
         "Visão Nacional ativa" if selected_cargo == "Presidente" else f"Estado ativo: {selected_uf}"
     )
+
+    # O mapa Plotly é montado uma única vez no DOM para garantir os inputs de callback,
+    # sendo visível no desktop apenas quando a visão ativa for 'mapa'.
+    cls_map_container = "hidden lg:block" if desktop_view == "mapa" else "hidden"
+
+    # A grade regional é montada uma única vez no DOM: visível sempre no mobile,
+    # e no desktop apenas quando a visão ativa for 'grade'.
+    cls_grade_container = "block lg:hidden" if desktop_view == "mapa" else "block"
 
     return html.Div(
         [
@@ -265,7 +294,7 @@ def render_home_content(selected_cargo: str, selected_uf: str) -> html.Div:
                     f"flex items-center justify-between gap-4 border-b {THEME['header_bg']} pb-4 mb-6"
                 ),
             ),
-            # Barra de Seleção de Cargos
+            # Barra de Seleção de Cargos e Escopo Nacional
             html.Section(
                 [
                     html.Div(
@@ -279,63 +308,102 @@ def render_home_content(selected_cargo: str, selected_uf: str) -> html.Div:
                             ),
                             render_cargo_pills(selected_cargo),
                         ],
-                        className="mb-6",
+                        className="mb-4",
+                    ),
+                    html.Div(
+                        render_nacional_button(selected_cargo),
+                        className="max-w-md mb-6",
                     ),
                 ]
             ),
-            # Grid Principal Split-Screen (Desktop: 2 colunas; Mobile: empilhado)
+            # Grid Principal Responsivo (Split-screen no Desktop / Vertical no Mobile)
             html.Main(
                 [
-                    # Coluna do Mapa (Esquerda em Desktop / 2ª em Mobile)
+                    # Coluna Visual (Esquerda em Desktop / 1ª em Mobile)
                     html.Div(
                         [
                             html.Div(
                                 [
                                     html.Div(
                                         [
-                                            html.Span(
-                                                "MAPA INTERATIVO DO BRASIL",
-                                                className=(
-                                                    "text-xs font-bold "
-                                                    "text-slate-400 tracking-wider"
-                                                ),
+                                            html.Div(
+                                                [
+                                                    html.Span(
+                                                        "VISÃO GEOGRÁFICA",
+                                                        className=(
+                                                            "text-xs font-bold "
+                                                            "text-slate-400 tracking-wider mr-3"
+                                                        ),
+                                                    ),
+                                                    html.Span(
+                                                        label_visao,
+                                                        className="text-xs font-medium text-slate-300",
+                                                    ),
+                                                ],
+                                                className="flex items-center",
                                             ),
-                                            html.Span(
-                                                label_visao,
-                                                className="text-xs font-medium text-slate-300",
+                                            # Toggle de visualização (exibido apenas em Desktop)
+                                            html.Div(
+                                                render_view_toggle(desktop_view),
+                                                className="hidden lg:block",
                                             ),
                                         ],
                                         className=header_map_cls,
                                     ),
-                                    dcc.Graph(
-                                        id="map-graph",
-                                        figure=fig,
-                                        config={
-                                            "displayModeBar": False,
-                                            "responsive": True,
-                                            "scrollZoom": False,
-                                        },
-                                        className="w-full h-[380px] sm:h-[480px] lg:h-[540px]",
-                                    ),
+                                    # Container do Mapa Plotly (renderizado uma vez no DOM)
                                     html.Div(
-                                        (
-                                            "Toque ou clique em um estado no mapa "
-                                            "para ver a cobertura regional."
-                                        ),
-                                        className=footer_map_cls,
+                                        [
+                                            dcc.Graph(
+                                                id="map-graph",
+                                                figure=fig,
+                                                config={
+                                                    "displayModeBar": False,
+                                                    "responsive": True,
+                                                    "scrollZoom": False,
+                                                },
+                                                className="w-full h-[380px] sm:h-[480px] lg:h-[540px]",
+                                            ),
+                                            html.Div(
+                                                (
+                                                    "Toque ou clique em um estado no mapa "
+                                                    "para ver a cobertura regional."
+                                                ),
+                                                className=footer_map_cls,
+                                            ),
+                                        ],
+                                        className=cls_map_container,
+                                    ),
+                                    # Container do Cartograma Regional (renderizado uma vez no DOM)
+                                    html.Div(
+                                        [
+                                            html.Div(
+                                                render_cartograma_regional(
+                                                    selected_uf, selected_cargo
+                                                ),
+                                                className="p-3 sm:p-5",
+                                            ),
+                                            html.Div(
+                                                (
+                                                    "Toque ou clique em uma UF "
+                                                    "para ver a cobertura regional."
+                                                ),
+                                                className=footer_map_cls,
+                                            ),
+                                        ],
+                                        className=cls_grade_container,
                                     ),
                                 ],
                                 className=box_map_cls,
                             ),
                         ],
-                        className="order-2 lg:order-1 lg:w-7/12",
+                        className="order-1 lg:order-1 lg:w-7/12",
                     ),
-                    # Coluna do Hero Card (Direita em Desktop / 1ª em Mobile)
+                    # Coluna do Hero Card (Direita em Desktop / 2ª em Mobile)
                     html.Div(
                         [
                             render_hero_card(hero),
                         ],
-                        className="order-1 lg:order-2 lg:w-5/12 flex flex-col justify-start",
+                        className="order-2 lg:order-2 lg:w-5/12 flex flex-col justify-start",
                     ),
                 ],
                 className="flex flex-col lg:flex-row gap-6 mb-16",
@@ -352,6 +420,7 @@ layout = html.Div(
     [
         dcc.Store(id="store-cargo", data="Presidente"),
         dcc.Store(id="store-uf", data="SP"),
+        dcc.Store(id="store-desktop-view", data="mapa", storage_type="local"),
         html.Div(id="home-content-container"),
     ],
     className=f"min-h-screen {THEME['bg_page']} flex flex-col relative",
@@ -364,38 +433,59 @@ layout = html.Div(
 
 
 @callback(
+    Output("store-desktop-view", "data"),
+    Input("btn-view-mapa", "n_clicks"),
+    Input("btn-view-grade", "n_clicks"),
+    State("store-desktop-view", "data"),
+    prevent_initial_call=True,
+)
+def update_desktop_view(n_mapa: int | None, n_grade: int | None, current_view: str) -> str:
+    """Controla a alternância entre a visão de Mapa e a Grade Regional no Desktop."""
+    triggered = get_safe_triggered_id()
+    if triggered == "btn-view-mapa":
+        return "mapa"
+    if triggered == "btn-view-grade":
+        return "grade"
+    return current_view or "mapa"
+
+
+@callback(
     Output("store-cargo", "data"),
     Output("store-uf", "data"),
     Input({"type": "cargo-btn", "cargo": ALL}, "n_clicks"),
+    Input({"type": "cartograma-uf-btn", "index": ALL}, "n_clicks"),
     Input("map-graph", "clickData"),
     State("store-cargo", "data"),
     State("store-uf", "data"),
     prevent_initial_call=True,
 )
 def update_filters(
-    _cargo_clicks: list[int],
+    _cargo_clicks: list[int | None],
+    _cartograma_clicks: list[int | None],
     map_click_data: dict | None,
     cargo_state: str,
     uf_state: str,
 ) -> tuple[str, str]:
-    """Gerencia seleção de cargo e clique no mapa."""
-    triggered = ctx.triggered_id
+    """Gerencia seleção de cargo, botões do Cartograma e clique no mapa via regras inteligentes."""
+    triggered = get_safe_triggered_id()
 
-    # Se foi clique em botão de cargo
+    # 1. Clique em pílula de cargo
     if isinstance(triggered, dict) and triggered.get("type") == "cargo-btn":
-        novo_cargo = triggered.get("cargo", cargo_state)
-        if novo_cargo == "Presidente":
-            return "Presidente", "BR"
-        return novo_cargo, uf_state if uf_state != "BR" else "SP"
+        novo_cargo = str(triggered.get("cargo", cargo_state))
+        return resolve_cargo_selection(novo_cargo, uf_state)
 
-    # Se foi clique no mapa
+    # 2. Clique em botão do Cartograma Regional (UF ou Brasil Nacional)
+    if isinstance(triggered, dict) and triggered.get("type") == "cartograma-uf-btn":
+        clicked_uf = str(triggered.get("index", uf_state))
+        return resolve_smart_selection(clicked_uf, cargo_state)
+
+    # 3. Clique no mapa tradicional Plotly
     if triggered == "map-graph" and map_click_data:
         points = map_click_data.get("points", [])
         if points:
             clicked_uf = points[0].get("location")
             if clicked_uf:
-                novo_cargo = "Governador" if cargo_state == "Presidente" else cargo_state
-                return novo_cargo, clicked_uf
+                return resolve_smart_selection(clicked_uf, cargo_state)
 
     return cargo_state, uf_state
 
@@ -404,7 +494,8 @@ def update_filters(
     Output("home-content-container", "children"),
     Input("store-cargo", "data"),
     Input("store-uf", "data"),
+    Input("store-desktop-view", "data"),
 )
-def render_active_content(cargo: str, uf: str) -> html.Div:
+def render_active_content(cargo: str, uf: str, desktop_view: str = "mapa") -> html.Div:
     """Renderiza o conteúdo da página com o estado selecionado."""
-    return render_home_content(cargo, uf)
+    return render_home_content(cargo, uf, desktop_view or "mapa")

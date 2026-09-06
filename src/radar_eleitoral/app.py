@@ -15,7 +15,6 @@ CUSTOM_INDEX_STRING = """<!DOCTYPE html>
         <link rel="apple-touch-icon" href="/assets/icon-192.png">
         <link rel="manifest" href="/assets/manifest.json">
         {%css%}
-        <script src="https://cdn.tailwindcss.com"></script>
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
         <meta name="format-detection" content="telephone=no">
@@ -102,6 +101,13 @@ server.wsgi_app = ProxyFix(  # type: ignore[method-assign]
     x_host=1,
     x_prefix=1,
 )
+
+
+@server.route("/healthz")
+def healthz() -> tuple[str, int, dict[str, str]]:
+    """Health check endpoint ultra-leve para pings de keep-alive externos."""
+    return "OK", 200, {"Content-Type": "text/plain; charset=utf-8"}
+
 
 app.layout = html.Div(
     [

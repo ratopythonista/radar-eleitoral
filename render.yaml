@@ -7,7 +7,7 @@ services:
     branch: main
     dockerfilePath: ./Dockerfile
     dockerContext: .
-    healthCheckPath: /
+    healthCheckPath: /healthz
     autoDeploy: true
     envVars:
       - key: PYTHONUNBUFFERED
