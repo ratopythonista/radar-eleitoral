@@ -85,8 +85,11 @@ def test_update_desktop_view_callback() -> None:
     """Valida o callback de alternância da visão no Desktop."""
     from radar_eleitoral.pages.home import update_desktop_view
 
-    # Teste de fallback / inicialização
+    # Teste de fallback / inicialização / preservação de estado
     assert update_desktop_view(0, 0, "mapa") == "mapa"
+    assert update_desktop_view(0, 0, "grade") == "grade"
+    assert update_desktop_view(1, 0, "grade") == "mapa"
+    assert update_desktop_view(0, 1, "mapa") == "grade"
 
 
 def test_layout_structure() -> None:

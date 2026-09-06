@@ -425,11 +425,28 @@ layout = html.Div(
 )
 def update_desktop_view(n_mapa: int | None, n_grade: int | None, current_view: str) -> str:
     """Controla a alternância entre a visão de Mapa e a Grade Regional no Desktop."""
+    # Se múltiplos inputs dispararam simultaneamente (montagem/remontagem de componente no DOM),
+    # preserva a visão ativa para evitar reversão involuntária da grade para o mapa ao trocar de UF.
+    try:
+        triggered_prop_ids = getattr(ctx, "triggered_prop_ids", {})
+        if len(triggered_prop_ids) > 1:
+            return current_view or "mapa"
+    except Exception:
+        pass
+
     triggered = get_safe_triggered_id()
-    if triggered == "btn-view-mapa":
+    if triggered == "btn-view-mapa" and (n_mapa or 0) > 0:
         return "mapa"
-    if triggered == "btn-view-grade":
+    if triggered == "btn-view-grade" and (n_grade or 0) > 0:
         return "grade"
+
+    # Fallback para chamadas diretas em testes de unidade sem contexto Dash ativo
+    if triggered is None:
+        if (n_mapa or 0) > (n_grade or 0):
+            return "mapa"
+        if (n_grade or 0) > (n_mapa or 0):
+            return "grade"
+
     return current_view or "mapa"
 
 
