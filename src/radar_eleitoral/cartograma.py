@@ -58,15 +58,15 @@ def resolve_cargo_selection(new_cargo: str, current_uf: str) -> tuple[str, str]:
 
 
 def render_nacional_button(selected_cargo: str) -> html.Button:
-    """Renderiza o botão de destaque 'Brasil (Nacional)' para a eleição presidencial."""
+    """Renderiza o botão compacto 'Brasil (Nacional)' para o Cartograma."""
     is_active = selected_cargo == "Presidente"
 
     active_cls = (
         "bg-gradient-to-r from-emerald-600 to-emerald-500 text-white border-emerald-400 "
-        "shadow-[0_0_16px_rgba(52,211,153,0.35)] scale-[1.01]"
+        "shadow-[0_0_12px_rgba(52,211,153,0.3)]"
     )
     inactive_cls = (
-        "bg-[#071d16] text-slate-300 border-white/10 hover:border-emerald-600/50 hover:bg-[#0b2b21]"
+        "bg-[#0a261e] text-slate-300 border-white/10 hover:border-emerald-600/40 hover:bg-[#103a2e]"
     )
 
     style_cls = active_cls if is_active else inactive_cls
@@ -85,14 +85,14 @@ def render_nacional_button(selected_cargo: str) -> html.Button:
 
     return html.Button(
         [
-            html.Span("🇧🇷", className="text-base mr-2 select-none"),
-            html.Span("Brasil (Âmbito Nacional)", className="font-bold text-xs sm:text-sm"),
+            html.Span("🇧🇷", className="text-sm mr-2 select-none"),
+            html.Span("Brasil (Âmbito Nacional)", className="font-bold text-xs"),
             badge_status,
         ],
         id={"type": "cartograma-uf-btn", "index": "BR"},
         n_clicks=0,
         className=(
-            f"w-full py-2.5 px-4 rounded-xl border font-medium transition-all duration-150 "
+            f"w-full py-2 px-3 rounded-lg border font-medium transition-all duration-150 "
             f"flex items-center justify-center cursor-pointer {style_cls}"
         ),
     )
@@ -156,6 +156,11 @@ def render_cartograma_regional(selected_uf: str, selected_cargo: str) -> html.Di
 
     return html.Div(
         [
+            # Botão de âmbito nacional integrado de forma limpa no topo do Cartograma
+            html.Div(
+                render_nacional_button(selected_cargo),
+                className="mb-3",
+            ),
             # Grade responsiva das macrorregiões
             html.Div(
                 region_cards,

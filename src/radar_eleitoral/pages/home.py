@@ -8,7 +8,6 @@ from dash import ALL, Input, Output, State, callback, ctx, dcc, html
 from radar_eleitoral.candidaturas import CARGOS, HeroData, get_hero_data
 from radar_eleitoral.cartograma import (
     render_cartograma_regional,
-    render_nacional_button,
     render_view_toggle,
     resolve_cargo_selection,
     resolve_smart_selection,
@@ -230,14 +229,6 @@ def render_home_content(
         "Visão Nacional ativa" if selected_cargo == "Presidente" else f"Estado ativo: {selected_uf}"
     )
 
-    # O mapa Plotly é montado uma única vez no DOM para garantir os inputs de callback,
-    # sendo visível no desktop apenas quando a visão ativa for 'mapa'.
-    cls_map_container = "hidden lg:block" if desktop_view == "mapa" else "hidden"
-
-    # A grade regional é montada uma única vez no DOM: visível sempre no mobile,
-    # e no desktop apenas quando a visão ativa for 'grade'.
-    cls_grade_container = "block lg:hidden" if desktop_view == "mapa" else "block"
-
     return html.Div(
         [
             # Header da Página
@@ -308,11 +299,7 @@ def render_home_content(
                             ),
                             render_cargo_pills(selected_cargo),
                         ],
-                        className="mb-4",
-                    ),
-                    html.Div(
-                        render_nacional_button(selected_cargo),
-                        className="max-w-md mb-6",
+                        className="mb-6",
                     ),
                 ]
             ),
@@ -342,11 +329,8 @@ def render_home_content(
                                                 ],
                                                 className="flex items-center",
                                             ),
-                                            # Toggle de visualização (exibido apenas em Desktop)
-                                            html.Div(
-                                                render_view_toggle(desktop_view),
-                                                className="hidden lg:block",
-                                            ),
+                                            # Toggle de visualização [ 🗺️ Mapa | 🧭 Grade Regional ]
+                                            render_view_toggle(desktop_view),
                                         ],
                                         className=header_map_cls,
                                     ),
@@ -371,7 +355,7 @@ def render_home_content(
                                                 className=footer_map_cls,
                                             ),
                                         ],
-                                        className=cls_map_container,
+                                        className="block" if desktop_view == "mapa" else "hidden",
                                     ),
                                     # Container do Cartograma Regional (renderizado uma vez no DOM)
                                     html.Div(
@@ -390,7 +374,7 @@ def render_home_content(
                                                 className=footer_map_cls,
                                             ),
                                         ],
-                                        className=cls_grade_container,
+                                        className="block" if desktop_view == "grade" else "hidden",
                                     ),
                                 ],
                                 className=box_map_cls,
