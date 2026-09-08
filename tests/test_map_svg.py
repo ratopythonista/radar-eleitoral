@@ -51,3 +51,16 @@ def test_render_brazil_svg_map_presidente_scope() -> None:
     assert "svg-uf-SP" in xml
     assert "svg-uf-DF" in xml
     assert "svg-uf-AM" in xml
+
+
+def test_map_svg_paths_mt_and_pa_valid() -> None:
+    """Garante que os estados de Mato Grosso (MT) e Pará (PA) possuem caminhos vetoriais válidos e completos."""
+    from radar_eleitoral.map_svg import UF_SVG_DATA
+
+    assert UF_SVG_DATA["MT"][0] == "path"
+    assert UF_SVG_DATA["MT"][1].startswith("M")
+    assert len(UF_SVG_DATA["MT"][1]) > 100
+
+    assert UF_SVG_DATA["PA"][0] == "path"
+    assert UF_SVG_DATA["PA"][1].startswith("M")
+    assert len(UF_SVG_DATA["PA"][1]) > 100
