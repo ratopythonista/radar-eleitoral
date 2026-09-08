@@ -39,6 +39,7 @@ ENV/
 *.pem
 *.key
 
+.sesskey
 # OS & Editor
 .DS_Store
 Thumbs.db

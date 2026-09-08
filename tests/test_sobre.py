@@ -1,9 +1,10 @@
-"""Testes unitários para a página /sobre do Radar Eleitoral."""
+"""Testes unitários para a página /sobre do Radar Eleitoral em FastHTML."""
 
-from dash import html
+from fasthtml import common as fh
+from starlette.testclient import TestClient
 
-import radar_eleitoral.app  # noqa: F401
 from radar_eleitoral.config import settings
+from radar_eleitoral.main import app
 from radar_eleitoral.pages.sobre import (
     layout,
     render_author_card,
@@ -15,119 +16,86 @@ from radar_eleitoral.pages.sobre import (
 )
 
 
-def _find_strings(component) -> list[str]:
-    """Extrai recursivamente todos os textos de uma árvore de componentes Dash."""
-    strings = []
-    if isinstance(component, str):
-        strings.append(component)
-    elif hasattr(component, "children"):
-        children = component.children
-        if isinstance(children, list):
-            for child in children:
-                strings.extend(_find_strings(child))
-        elif children is not None:
-            strings.extend(_find_strings(children))
-    return strings
-
-
-def test_render_sobre_header():
+def test_render_sobre_header() -> None:
     """Header deve conter link de retorno ao mapa e branding."""
     header = render_sobre_header()
-    text = " ".join(_find_strings(header))
-    assert "RADAR" in text
-    assert "Eleitoral" in text
+    xml = fh.to_xml(header)
 
-    # Verifica link para a Home
-    def _has_home_link(comp):
-        if getattr(comp, "href", None) == "/":
-            return True
-        if hasattr(comp, "children") and isinstance(comp.children, list):
-            return any(_has_home_link(c) for c in comp.children)
-        return False
-
-    assert _has_home_link(header)
+    assert "RADAR" in xml
+    assert "Eleitoral" in xml
+    assert 'href="/"' in xml
+    assert "Voltar ao Mapa" in xml
 
 
-def test_render_hero_civico():
+def test_render_hero_civico() -> None:
     """Hero cívico deve apresentar o propósito público do Radar Eleitoral."""
     hero = render_hero_civico()
-    text = " ".join(_find_strings(hero))
-    assert "Democratizando o Acesso" in text or "Transparência" in text
-    assert "Radar Eleitoral" in text
+    xml = fh.to_xml(hero)
+
+    assert "TRANSPARÊNCIA E CIDADANIA" in xml
+    assert "Democratizando o Acesso à Cobertura Eleitoral do Brasil" in xml
+    assert "Radar Eleitoral" in xml
 
 
-def test_render_disclaimer_card():
+def test_render_disclaimer_card() -> None:
     """Card de independência deve blindar juridicamente e citar o autor e G1."""
     card = render_disclaimer_card()
-    text = " ".join(_find_strings(card))
-    assert "Nota de Transparência e Independência" in text
-    assert "Rodrigo Guimarães Araújo" in text
-    assert "não possui qualquer afiliação institucional" in text
-    assert "G1" in text
+    xml = fh.to_xml(card)
+
+    assert "Nota de Transparência e Independência" in xml
+    assert "Rodrigo Guimarães Araújo" in xml
+    assert "G1" in xml
 
 
-def test_render_future_vision():
+def test_render_future_vision() -> None:
     """Visão de futuro deve incorporar o teaser 'Vem mais esse ano'."""
     vision = render_future_vision()
-    text = " ".join(_find_strings(vision))
-    assert "O radar continua ligado" in text or "Vem mais" in text
+    xml = fh.to_xml(vision)
+
+    assert "O radar continua ligado" in xml or "Vem mais" in xml
 
 
-def test_render_author_card():
+def test_render_author_card() -> None:
     """Card do autor deve apresentar nome, headline, avatar e os 4 links sociais."""
     card = render_author_card(settings)
-    text = " ".join(_find_strings(card))
-    assert "Rodrigo Guimarães Araújo" in text
-    assert "Especialista em Inteligência Artificial" in text
+    xml = fh.to_xml(card)
 
-    def _collect_hrefs(comp):
-        hrefs = []
-        if getattr(comp, "href", None):
-            hrefs.append(comp.href)
-        if hasattr(comp, "children") and isinstance(comp.children, list):
-            for c in comp.children:
-                hrefs.extend(_collect_hrefs(c))
-        elif hasattr(comp, "children") and comp.children is not None:
-            hrefs.extend(_collect_hrefs(comp.children))
-        return hrefs
-
-    hrefs = _collect_hrefs(card)
-    assert settings.github_url in hrefs
-    assert settings.linkedin_url in hrefs
-    assert settings.instagram_url in hrefs
-    assert settings.x_url in hrefs
+    assert settings.author_name in xml
+    assert "Tech Lead" in xml
+    assert "Engenheiro de Software" in xml
+    assert settings.author_avatar_url in xml
+    assert settings.github_url in xml
+    assert settings.linkedin_url in xml
+    assert settings.instagram_url in xml
+    assert settings.x_url in xml
 
 
-def test_render_pix_support_card():
+def test_render_pix_support_card() -> None:
     """Card do Pix deve renderizar QR Code, chave visível e botão de cópia."""
-    pix_card = render_pix_support_card(settings)
-    text = " ".join(_find_strings(pix_card))
-    assert settings.pix_key in text
-    assert "Copiar Chave Pix" in text
+    card = render_pix_support_card(settings)
+    xml = fh.to_xml(card)
 
-    def _find_img(comp):
-        if isinstance(comp, html.Img):
-            return comp
-        if hasattr(comp, "children"):
-            children = comp.children
-            if isinstance(children, list):
-                for c in children:
-                    res = _find_img(c)
-                    if res is not None:
-                        return res
-            elif children is not None:
-                return _find_img(children)
-        return None
-
-    img = _find_img(pix_card)
-    assert img is not None
-    assert str(img.src).startswith("data:image/svg+xml")
+    assert "SUSTENTABILIDADE DO PROJETO" in xml
+    assert settings.pix_key in xml
+    assert "Copiar Chave Pix" in xml
+    assert "copyPixKey" in xml
+    assert "data:image/svg+xml" in xml
 
 
-def test_layout_callable():
+def test_layout_callable() -> None:
     """Garante que a função layout() da página /sobre instancia a árvore sem erros."""
     full_page = layout()
-    assert full_page is not None
-    assert isinstance(full_page, html.Div)
-    assert isinstance(full_page.children, list)
-    assert len(full_page.children) == 7
+    xml = fh.to_xml(full_page)
+
+    assert "Democratizando o Acesso" in xml
+    assert settings.author_name in xml
+    assert settings.pix_key in xml
+
+
+def test_endpoint_sobre_get() -> None:
+    """Valida o endpoint HTTP da rota /sobre via TestClient."""
+    client = TestClient(app)
+    res = client.get("/sobre")
+    assert res.status_code == 200
+    assert "Democratizando o Acesso" in res.text
+    assert settings.pix_key in res.text

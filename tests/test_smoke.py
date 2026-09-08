@@ -1,6 +1,9 @@
 """Smoke test for radar-eleitoral package."""
 
+from starlette.testclient import TestClient
+
 from radar_eleitoral import __version__
+from radar_eleitoral.main import app
 
 
 def test_version() -> None:
@@ -8,18 +11,13 @@ def test_version() -> None:
 
 
 def test_app_server_entrypoint() -> None:
-    """Verify that radar_eleitoral.app exposes a valid WSGI callable server."""
-    from radar_eleitoral.app import server
-
-    assert callable(server)
-    assert hasattr(server, "wsgi_app")
+    """Verify that radar_eleitoral.main exposes a valid ASGI application."""
+    assert callable(app)
 
 
 def test_healthz_endpoint() -> None:
     """Verify that /healthz returns 200 OK for lightweight keep-alive monitors."""
-    from radar_eleitoral.app import server
-
-    client = server.test_client()
+    client = TestClient(app)
     response = client.get("/healthz")
     assert response.status_code == 200
-    assert response.data == b"OK"
+    assert response.text == "OK"

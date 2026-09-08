@@ -13,7 +13,12 @@ class Settings(BaseSettings):
         extra="ignore",
     )
     # Ativos de branding e metadados
-    default_social_card: str = "social-card.png"
+    app_name: str = "Radar Eleitoral"
+    app_description: str = (
+        "Vitrine interativa de candidaturas e matérias jornalísticas automatizadas "
+        "do G1 por estado e cargo em todo o Brasil."
+    )
+    default_social_card: str = "/static/social-card.png"
 
     # Dados do Pix para sustentabilidade e apoio
     pix_key: str = "ratopythonista@noh.pix"

@@ -1,6 +1,6 @@
 """Testes para o Cartograma Regional e regras de seleção inteligente."""
 
-from dash import html
+from fasthtml import common as fh
 
 from radar_eleitoral.candidaturas import UF_NAMES
 from radar_eleitoral.cartograma import (
@@ -74,19 +74,30 @@ def test_resolve_smart_selection_regular() -> None:
 def test_render_cartograma_regional_structure() -> None:
     """Gera componente com as 5 macrorregiões e 27 botões de UF."""
     comp = render_cartograma_regional(selected_uf="SP", selected_cargo="Governador")
-    assert isinstance(comp, html.Div)
+    xml = fh.to_xml(comp)
+    assert "Norte" in xml
+    assert "Sudeste" in xml
+    assert "SP" in xml
+    assert "desktop_view=grade" in xml
+    assert 'hx-push-url="/?uf=' in xml
 
 
 def test_render_nacional_button() -> None:
     """Gera o botão de destaque Brasil (Nacional)."""
     btn_active = render_nacional_button(selected_cargo="Presidente")
-    assert isinstance(btn_active, html.Button)
+    xml_active = fh.to_xml(btn_active)
+    assert "Brasil" in xml_active
+    assert "ATIVO" in xml_active
 
     btn_inactive = render_nacional_button(selected_cargo="Governador")
-    assert isinstance(btn_inactive, html.Button)
+    xml_inactive = fh.to_xml(btn_inactive)
+    assert "Brasil" in xml_inactive
+    assert "ATIVO" not in xml_inactive
 
 
 def test_render_view_toggle() -> None:
     """Gera os botões de alternância Mapa vs Grade."""
     toggle = render_view_toggle(active_view="mapa")
-    assert isinstance(toggle, html.Div)
+    xml = fh.to_xml(toggle)
+    assert "Mapa" in xml
+    assert "Grade" in xml

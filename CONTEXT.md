@@ -1,6 +1,6 @@
 # Context: Radar Eleitoral
 
-Aplicação web pública em Dash monolítico para divulgação de matérias jornalísticas automatizadas do G1 por estado e cargo, destacando feitos de automação jornalística e servindo como vitrine profissional.
+Aplicação web pública em FastHTML monolítico com HTMX e Granian ASGI para divulgação de matérias jornalísticas automatizadas do G1 por estado e cargo, destacando feitos de automação jornalística e servindo como vitrine profissional.
 
 ## Glossário
 
@@ -25,9 +25,13 @@ Painel lateral/inferior de destaque na interface do mapa que exibe a introduçã
 _Avoid: Pop-up invasivo, Tooltip simples._
 
 
+### Mapa Vetorial SVG
+Representação cartográfica vetorial interativa do Brasil renderizada diretamente como SVG inline no DOM, onde cada Unidade da Federação é um polígono/caminho clicável instrumentado com atributos HTMX (`hx-get`, `hx-target`), eliminando a sobrecarga de runtimes JavaScript pesados (como Plotly.js/React).
+_Avoid: Canvas fechado, WebGL, Mapa coroplético em biblioteca gráfica pesada._
+
 ### Cartograma de UFs
-Representação visual esquemática do Brasil estruturada em grade retangular uniforme (tile grid map), onde cada Unidade da Federação possui peso visual e alvo de clique equivalentes, preservando a vizinhança geográfica aproximada e viabilizando a seleção tátil acessível tanto em mobile quanto em desktop.
-_Avoid: Mapa coroplético geográfico, Mapa distorcido, Lista suspensa simples._
+Representação visual esquemática do Brasil estruturada em grade retangular uniforme (tile grid map) por macrorregiões, onde cada Unidade da Federação possui peso visual e alvo de clique equivalentes, viabilizando a seleção tátil acessível especialmente em telas menores ou como alternativa à mira do mapa.
+_Avoid: Mapa distorcido ilegível, Lista suspensa simples._
 ### Apoio
 Mecanismo voluntário de doação financeira de apoiadores exclusivamente via Pix (QR Code dinâmico/estático e chave copia-e-cola) na página `/sobre`.
 _Avoid: Cobrança, Assinatura, Paywall, Buy Me a Coffee._
@@ -48,5 +52,5 @@ _Avoid: Termos de Uso genéricos, Nota de rodapé oculta._
 
 - **radar-eleitoral → data/candidaturas.csv**: Aplicação consome dataset tabular local estático (contrato: colunas `uf`, `cargo`, `url_g1`, `resumo`, `candidaturas`).
 - **radar-eleitoral → G1 (Globo)**: Aplicação redireciona o usuário para links canônicos públicos do portal G1 via navegação web nativa (`target="_blank"`).
-- **radar-eleitoral → IBGE / GeoJSON**: Renderização do mapa consome malha vetorial simplificada dos estados brasileiros em GeoJSON (<100KB).
+- **radar-eleitoral → SVG Map**: Renderização cartográfica consome malha vetorial SVG nativa inline leve (<25KB) com identificadores oficiais das 27 UFs.
 - **radar-eleitoral → Render.com**: Deploy contínuo automatizado do container Docker gerenciado pelo Granian.

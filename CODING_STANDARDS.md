@@ -3,8 +3,8 @@
 These are the standards this repo is written to. `/code-review` (Standards axis) reads this
 file to judge whether a diff conforms — cite the specific rule below when flagging a violation.
 
-> Profile: **Dash Web App (Monolith)** per `pyspecific` ADR-0004. Deploys via Dockerfile with
-> Granian (WSGI) on Render.com.
+> Profile: **FastHTML Web App (Monolith)** per `pyspecific` ADR-0007. Deploys via Dockerfile with
+> Granian (ASGI) on Render.com.
 
 ## Environment
 
@@ -27,12 +27,11 @@ file to judge whether a diff conforms — cite the specific rule below when flag
 
 ## Dependency stack
 
-- **dash** — frontend UI framework with native Dash Pages (`src/radar_eleitoral/pages/`).
-- **granian** — production WSGI HTTP runner (`granian --interface wsgi radar_eleitoral.app:server`).
+- **fasthtml** — frontend UI framework with native HTMX and Starlette ASGI (`python-fasthtml`).
+- **granian** — production ASGI HTTP runner (`granian --interface asgi radar_eleitoral.main:app`).
 - **pydantic** — data validation and DTOs.
 - **pydantic-settings** — application configuration (`BaseSettings`).
-- **plotly** — interactive map rendering (`px.choropleth` with optimized IBGE GeoJSON).
-- **pandas** — tabular dataset loading and filtering.
+- **segno** — QR code generation for Pix.
 - **loguru** — logging.
 - **ruff** — linting and formatting (line-length 100, double quotes).
 - **ty** — static type checking.
@@ -41,8 +40,16 @@ file to judge whether a diff conforms — cite the specific rule below when flag
 ## Architecture & Layout
 
 - Source code lives strictly under `src/radar_eleitoral/`.
-- Multi-page Dash layout under `src/radar_eleitoral/pages/`:
-  - `home.py` (`/`): Interactive Brazil map (desktop) & Regional Cartogram (mobile/desktop) + Cargo filter + Hero result card.
-  - `sobre.py` (`/sobre`): Bio, achievements, social links, Pix QR Code & Buy Me a Coffee.
-- Public static assets in `src/radar_eleitoral/assets/` (styles, icons, PWA manifest).
+- Entrypoint at `src/radar_eleitoral/main.py:app` via `fast_app()` and Granian ASGI.
+- Modular screens under `src/radar_eleitoral/pages/`:
+  - `home.py` (`/`): Interactive Brazil SVG map & Regional Cartogram + Cargo filter + Hero result card via HTMX partials (`/candidaturas`).
+  - `sobre.py` (`/sobre`): Bio, achievements, social links, Pix QR Code & Support mechanism.
+- Reusable pure FastTag UI components in `src/radar_eleitoral/map_svg.py`, `cartograma.py`, etc.
+- Public static assets in `src/radar_eleitoral/static/` (styles, icons, PWA manifest, service worker).
 - Offline-safe public data in `data/candidaturas.csv`. No internal Globo secrets or credentials.
+
+## FastHTML & FastTags Conventions
+
+- **No wildcard imports.** Prohibit `from fasthtml.common import *`. Use explicit imports (`from fasthtml.common import Button, Card, Div, Form, Input, P`) or aliased imports (`from fasthtml import common as fh`).
+- **FastTag casing and attributes.** Tags use PascalCase (`Div`, `H1`, `Button`). Tailwind classes use `cls="..."`. HTMX attributes use underscores (`hx_get`, `hx_target`, `hx_swap`, `hx_push_url`).
+- **Typed components.** Reusable UI components must be pure functions with explicit type signatures returning `fh.FT` (or FastTag objects).

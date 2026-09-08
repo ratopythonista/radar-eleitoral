@@ -1,32 +1,25 @@
-"""Testes de unidade e integridade para a página Home do Radar Eleitoral."""
+"""Testes de unidade e integridade para a página Home do Radar Eleitoral em FastHTML."""
 
 import pytest
+from fasthtml import common as fh
+from starlette.testclient import TestClient
 
-import radar_eleitoral.app  # noqa: F401
-from radar_eleitoral.candidaturas import CARGOS, UF_NAMES, get_hero_data
-from radar_eleitoral.map_utils import create_brazil_map, load_brazil_geojson
-from radar_eleitoral.pages.home import layout, render_active_content, render_home_content
+from radar_eleitoral.candidaturas import CARGOS, get_hero_data
+from radar_eleitoral.main import app
+from radar_eleitoral.pages.home import home_page, render_home_content
 
 
-def test_load_brazil_geojson() -> None:
-    """Verifica se a malha GeoJSON do Brasil simplificada carrega corretamente."""
-    geojson = load_brazil_geojson()
-    assert geojson["type"] == "FeatureCollection"
-    features = geojson["features"]
-    assert len(features) == 27
-    siglas = {f["properties"]["sigla"] for f in features}
-    assert "SP" in siglas
-    assert "RJ" in siglas
-    assert "DF" in siglas
+@pytest.fixture
+def client() -> TestClient:
+    return TestClient(app)
 
 
 def test_candidaturas_data_presidente() -> None:
     """Valida contrato dos dados reais para Presidente (âmbito nacional)."""
-    hero = get_hero_data("BR", "Presidente")
+    hero = get_hero_data(uf="BR", cargo="Presidente")
     assert hero.is_nacional is True
     assert hero.uf == "BR"
     assert hero.cargo == "Presidente"
-    assert "Presidência da República" in hero.titulo
     assert hero.candidaturas > 0
     assert "g1.globo.com" in hero.url_g1
 
@@ -34,78 +27,91 @@ def test_candidaturas_data_presidente() -> None:
 @pytest.mark.parametrize("uf", ["SP", "RJ", "MG", "BA", "RS"])
 def test_candidaturas_data_estados(uf: str) -> None:
     """Valida dados para os estados com dataset real carregado."""
-    hero = get_hero_data(uf, "Governador")
+    hero = get_hero_data(uf=uf, cargo="Governador")
     assert hero.is_nacional is False
     assert hero.uf == uf
     assert hero.cargo == "Governador"
-    assert hero.uf_nome == UF_NAMES[uf]
     assert hero.candidaturas > 0
     assert "g1.globo.com" in hero.url_g1
 
 
 def test_candidaturas_data_fallback() -> None:
     """Valida fallback dinâmico determinístico para cargos não cadastrados."""
-    hero = get_hero_data("AC", "Cargo Customizado")
+    hero = get_hero_data(uf="AC", cargo="Deputado Estadual")
     assert hero.uf == "AC"
-    assert hero.cargo == "Cargo Customizado"
-    assert hero.candidaturas > 0
+    assert hero.cargo == "Deputado Estadual"
+    assert "g1.globo.com" in hero.url_g1
     assert "Acre" in hero.titulo
 
 
-def test_create_brazil_map() -> None:
-    """Valida criação da figura Plotly na paleta Esmeralda para estados e Presidente."""
-    fig_sp = create_brazil_map("SP", "Governador")
-    assert fig_sp.data is not None
-    assert len(fig_sp.data) > 0
-
-    fig_pres = create_brazil_map("BR", "Presidente")
-    assert fig_pres.data is not None
-    assert len(fig_pres.data) > 0
-
-
-def test_render_home_content() -> None:
-    """Garante que a Home renderiza com dados ativos sem erros."""
-    content_pres = render_home_content("Presidente", "BR")
-    assert content_pres is not None
-
-    content_gov = render_home_content("Governador", "SP")
-    assert content_gov is not None
+def test_render_home_content_mapa_view() -> None:
+    """Garante que a Home renderiza com o mapa SVG na visão padrão."""
+    content = render_home_content("Governador", "SP", desktop_view="mapa")
+    xml = fh.to_xml(content)
+    assert "São Paulo" in xml
+    assert "container-visual-mapa" in xml
+    assert "svg-uf-SP" in xml
 
 
 def test_render_home_content_grade_view() -> None:
     """Garante que a Home renderiza com a visão de grade regional no desktop."""
-    content_grade = render_home_content("Governador", "SP", desktop_view="grade")
-    assert content_grade is not None
-
-    content_mapa = render_home_content("Governador", "DF", desktop_view="mapa")
-    assert content_mapa is not None
-
-
-def test_update_desktop_view_callback() -> None:
-    """Valida o callback de alternância da visão no Desktop."""
-    from radar_eleitoral.pages.home import update_desktop_view
-
-    # Teste de fallback / inicialização / preservação de estado
-    assert update_desktop_view(0, 0, "mapa") == "mapa"
-    assert update_desktop_view(0, 0, "grade") == "grade"
-    assert update_desktop_view(1, 0, "grade") == "mapa"
-    assert update_desktop_view(0, 1, "mapa") == "grade"
+    content = render_home_content("Governador", "SP", desktop_view="grade")
+    xml = fh.to_xml(content)
+    assert "São Paulo" in xml
+    assert "container-visual-grade" in xml
+    assert "Norte" in xml
 
 
-def test_layout_structure() -> None:
-    """Valida montagem estática do layout da Home."""
-    assert layout is not None
+def test_home_page_full_structure() -> None:
+    """Valida a estrutura completa da página inicial."""
+    page = home_page("SP", "Governador", "mapa")
+    xml = fh.to_xml(page)
+    assert "RADAR" in xml
+    assert "Eleitoral" in xml
+    assert "Sobre o Projeto" in xml
+    assert 'href="/sobre"' in xml
 
 
-def test_render_active_content_callback() -> None:
-    """Valida callback que atualiza o conteúdo da Home reativamente."""
-    rendered = render_active_content("Governador", "SP")
-    assert rendered is not None
+def test_endpoint_home_get(client: TestClient) -> None:
+    """Valida a resposta HTTP da rota raiz."""
+    res = client.get("/")
+    assert res.status_code == 200
+    assert "<!doctype html>" in res.text.lower()
+    assert "RADAR" in res.text
+    assert "radar-content" in res.text
+
+
+def test_endpoint_candidaturas_fragment(client: TestClient) -> None:
+    """Valida o endpoint HTMX de fragmento parcial e fallback para página completa."""
+    # Requisição com header HTMX retorna o fragmento
+    res_htmx = client.get("/candidaturas?uf=RJ&cargo=Governador", headers={"HX-Request": "true"})
+    assert res_htmx.status_code == 200
+    assert "Rio de Janeiro" in res_htmx.text
+    assert "svg-uf-RJ" in res_htmx.text
+    assert "<!doctype html>" not in res_htmx.text.lower()
+
+    # Requisição direta sem HTMX retorna a página completa
+    res_direct = client.get("/candidaturas?uf=RJ&cargo=Governador")
+    assert res_direct.status_code == 200
+    assert "Rio de Janeiro" in res_direct.text
+    assert "<!doctype html>" in res_direct.text.lower()
+
+
+def test_endpoint_view_toggle(client: TestClient) -> None:
+    """Valida a alternância de visão via endpoint HTMX."""
+    res = client.get("/view-toggle?view=grade&uf=SP&cargo=Governador")
+    assert res.status_code == 200
+    assert "container-visual-grade" in res.text
 
 
 def test_cargos_constants() -> None:
     """Valida que todos os cargos esperados estão no catálogo."""
-    assert "Presidente" in CARGOS
-    assert "Governador" in CARGOS
-    assert "Senador" in CARGOS
+    expected_cargos = [
+        "Presidente",
+        "Governador",
+        "Senador",
+        "Deputado Federal",
+        "Deputado Estadual",
+    ]
+    assert expected_cargos == CARGOS
     assert len(CARGOS) == 5

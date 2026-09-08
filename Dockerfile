@@ -67,7 +67,7 @@ EXPOSE 8080
 # Troca para o usuário seguro sem privilégios de superusuário
 USER appuser
 
-# Execução do Granian em modo WSGI:
+# Execução do Granian em modo ASGI:
 # O wrapper 'exec' substitui o shell pelo Granian, tornando-o PID 1 para receber sinais do SO (SIGTERM).
 # A expansão ${PORT:-8080} garante suporte dinâmico à porta atribuída pelo Render (ex: 10000).
-CMD ["sh", "-c", "exec granian --interface wsgi --host 0.0.0.0 --port ${PORT:-8080} --workers 1 --blocking-threads 4 --workers-max-rss 400 radar_eleitoral.app:server"]
+CMD ["sh", "-c", "exec granian --interface asgi --host 0.0.0.0 --port ${PORT:-8080} --workers 1 --workers-max-rss 400 radar_eleitoral.main:app"]

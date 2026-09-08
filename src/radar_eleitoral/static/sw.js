@@ -2,13 +2,13 @@ const CACHE_NAME = 'radar-eleitoral-v1';
 const STATIC_ASSETS = [
   '/',
   '/sobre',
-  '/assets/manifest.json',
-  '/assets/favicon.svg',
-  '/assets/favicon.ico',
-  '/assets/icon-32.png',
-  '/assets/icon-192.png',
-  '/assets/icon-512.png',
-  '/assets/social-card.png'
+  '/static/manifest.json',
+  '/static/favicon.svg',
+  '/static/favicon.ico',
+  '/static/icon-32.png',
+  '/static/icon-192.png',
+  '/static/icon-512.png',
+  '/static/social-card.png'
 ];
 
 self.addEventListener('install', (event) => {
