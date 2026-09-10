@@ -11,6 +11,8 @@ from radar_eleitoral.pages.home import (
     home_page,
     render_home_content,
     render_home_footer,
+    render_icon_github,
+    render_icon_linkedin,
 )
 
 
@@ -85,6 +87,14 @@ def test_render_home_footer_custom_and_defaults() -> None:
     assert "https://linkedin.com/in/fulano" in xml
     assert "sem vínculo institucional com o Grupo Globo ou portal G1" in xml
     assert "Cobertura automatizada via portal G1" in xml
+
+    # Validação dos ícones vetoriais SVG de LinkedIn e GitHub
+    gh_icon = fh.to_xml(render_icon_github())
+    li_icon = fh.to_xml(render_icon_linkedin())
+    assert "<svg" in gh_icon and "viewbox=" in gh_icon.lower()
+    assert "<svg" in li_icon and "viewbox=" in li_icon.lower()
+    assert gh_icon in xml
+    assert li_icon in xml
 
 
 def test_home_page_full_structure() -> None:
