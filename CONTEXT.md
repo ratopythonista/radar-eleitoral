@@ -32,21 +32,13 @@ _Avoid: Canvas fechado, WebGL, Mapa coroplético em biblioteca gráfica pesada._
 ### Cartograma de UFs
 Representação visual esquemática do Brasil estruturada em grade retangular uniforme (tile grid map) por macrorregiões, onde cada Unidade da Federação possui peso visual e alvo de clique equivalentes, viabilizando a seleção tátil acessível especialmente em telas menores ou como alternativa à mira do mapa.
 _Avoid: Mapa distorcido ilegível, Lista suspensa simples._
-### Apoio
-Mecanismo voluntário de doação financeira de apoiadores exclusivamente via Pix (QR Code dinâmico/estático e chave copia-e-cola) na página `/sobre`.
-_Avoid: Cobrança, Assinatura, Paywall, Buy Me a Coffee._
-
 ### Human-in-the-Loop
 Princípio editorial e arquitetural em que reportagens geradas por inteligência artificial a partir de dados públicos oficiais são obrigatoriamente revisadas e chanceladas por jornalistas antes da publicação.
 _Avoid: Autonomia total, Publicação cega, Geração desassistida._
 
-### Código Pix Copia-e-Cola
-Cadeia textual no padrão EMVCo (BR Code) estabelecido pelo Banco Central contendo payload padronizado para efetivação de transferências instantâneas via aplicativos bancários.
-_Avoid: Link de pagamento, Boleto, Checkout externo._
-
 ### Disclaimer de Independência
-Declaração explícita de isenção institucional, assegurando a natureza estritamente pessoal, cívica e de código aberto do projeto, sem vínculo financeiro, comercial ou patrocínio com o Grupo Globo ou G1.
-_Avoid: Termos de Uso genéricos, Nota de rodapé oculta._
+Declaração concisa de isenção institucional no rodapé da página principal, assegurando a natureza estritamente pessoal, cívica e de código aberto do projeto, sem vínculo financeiro, comercial ou patrocínio com o Grupo Globo ou G1.
+_Avoid: Termos de Uso genéricos, Ausência de disclaimer._
 
 ## Dependências
 

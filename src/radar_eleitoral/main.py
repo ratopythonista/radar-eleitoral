@@ -8,7 +8,7 @@ from starlette.routing import Mount
 from starlette.staticfiles import StaticFiles
 
 from radar_eleitoral.config import settings
-from radar_eleitoral.pages import home, sobre
+from radar_eleitoral.pages import home
 
 STATIC_DIR = Path(__file__).parent / "static"
 
@@ -63,4 +63,3 @@ def healthz() -> fh.Response:
 
 # Registro modular das telas da aplicação
 home.register(app)
-sobre.register(app)

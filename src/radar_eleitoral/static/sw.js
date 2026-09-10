@@ -1,7 +1,6 @@
 const CACHE_NAME = 'radar-eleitoral-v1';
 const STATIC_ASSETS = [
   '/',
-  '/sobre',
   '/static/manifest.json',
   '/static/favicon.svg',
   '/static/favicon.ico',

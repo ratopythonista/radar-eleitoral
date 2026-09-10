@@ -12,6 +12,7 @@ from radar_eleitoral.cartograma import (
     resolve_cargo_selection,
     resolve_smart_selection,
 )
+from radar_eleitoral.config import Settings, settings
 from radar_eleitoral.map_svg import render_brazil_svg_map
 
 # Estilos da paleta Esmeralda Transparência
@@ -254,12 +255,80 @@ def render_home_content(
     )
 
 
+def render_home_footer(cfg: Settings = settings) -> fh.FT:
+    """Renderiza o rodapé em duas seções com autoria, links de contato e nota de independência."""
+    btn_link_cls = (
+        "px-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 "
+        "text-xs font-semibold text-slate-300 hover:text-white transition-all "
+        "flex items-center gap-1.5 whitespace-nowrap"
+    )
+
+    return fh.Footer(
+        fh.Div(
+            # Seção Superior: Assinatura nominal e canais de contato
+            fh.Div(
+                fh.Div(
+                    fh.Span(
+                        "Desenvolvido por ",
+                        cls="text-xs text-slate-400 mr-1",
+                    ),
+                    fh.Span(
+                        cfg.author_name,
+                        cls="text-xs sm:text-sm font-bold text-white tracking-tight",
+                    ),
+                    cls="flex items-center",
+                ),
+                fh.Div(
+                    fh.A(
+                        fh.Span("✉️", cls="text-xs select-none"),
+                        fh.Span("E-mail"),
+                        href=f"mailto:{cfg.author_email}",
+                        cls=btn_link_cls,
+                    ),
+                    fh.A(
+                        fh.Span("LinkedIn"),
+                        href=cfg.linkedin_url,
+                        target="_blank",
+                        rel="noopener noreferrer",
+                        cls=btn_link_cls,
+                    ),
+                    fh.A(
+                        fh.Span("GitHub"),
+                        href=cfg.github_url,
+                        target="_blank",
+                        rel="noopener noreferrer",
+                        cls=btn_link_cls,
+                    ),
+                    cls="flex items-center flex-wrap gap-2",
+                ),
+                cls="flex flex-col sm:flex-row items-center justify-between gap-4 pb-4",
+            ),
+            # Seção Inferior: Disclaimer de Independência e crédito de dados
+            fh.Div(
+                fh.P(
+                    "Projeto cívico independente sem vínculo institucional com o Grupo Globo ou portal G1. "
+                    "Matérias jornalísticas acessadas via links públicos canônicos.",
+                    cls="text-[11px] text-slate-400 text-center sm:text-left leading-relaxed max-w-2xl",
+                ),
+                fh.P(
+                    "Cobertura automatizada via portal G1 • Eleições Gerais do Brasil",
+                    cls="text-[11px] text-slate-400 text-center sm:text-right whitespace-nowrap",
+                ),
+                cls="flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-white/10 pt-4",
+            ),
+            cls="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6",
+        ),
+        id="radar-footer",
+        cls="border-t border-white/10 bg-black/40 mt-auto",
+    )
+
+
 def home_page(
     selected_uf: str = "SP",
     selected_cargo: str = "Governador",
     desktop_view: str = "mapa",
 ) -> fh.FT:
-    """Renderiza a página inicial completa com cabeçalho de navegação e miolo interativo."""
+    """Renderiza a página inicial completa com cabeçalho de navegação, miolo interativo e rodapé."""
     return fh.Div(
         fh.Div(
             # Header da Aplicação
@@ -286,19 +355,15 @@ def home_page(
                             cls="text-xs sm:text-sm text-slate-400 mt-0.5",
                         ),
                     ),
-                    fh.A(
-                        "Sobre o Projeto",
-                        href="/sobre",
-                        cls="text-xs sm:text-sm font-medium text-slate-400 hover:text-white px-3 py-1.5 rounded-lg hover:bg-white/5 transition-colors whitespace-nowrap shrink-0",
-                    ),
-                    cls=f"flex items-center justify-between gap-4 border-b {THEME['header_bg']} pb-4 mb-6",
+                    cls=f"border-b {THEME['header_bg']} pb-4 mb-6",
                 ),
             ),
             # Miolo Interativo HTMX
             render_home_content(selected_cargo, selected_uf, desktop_view),
-            cls="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6",
+            cls="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 w-full",
         ),
-        cls=f"min-h-screen {THEME['bg_page']} flex flex-col relative",
+        render_home_footer(),
+        cls=f"min-h-screen {THEME['bg_page']} flex flex-col justify-between relative",
     )
 
 

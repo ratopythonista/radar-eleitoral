@@ -5,8 +5,13 @@ from fasthtml import common as fh
 from starlette.testclient import TestClient
 
 from radar_eleitoral.candidaturas import CARGOS, get_hero_data
+from radar_eleitoral.config import Settings
 from radar_eleitoral.main import app
-from radar_eleitoral.pages.home import home_page, render_home_content
+from radar_eleitoral.pages.home import (
+    home_page,
+    render_home_content,
+    render_home_footer,
+)
 
 
 @pytest.fixture
@@ -62,14 +67,42 @@ def test_render_home_content_grade_view() -> None:
     assert "Norte" in xml
 
 
+def test_render_home_footer_custom_and_defaults() -> None:
+    """Valida renderização do rodapé com assinatura, canais de contato e disclaimer."""
+    custom_cfg = Settings(
+        author_name="Fulano de Tal",
+        author_email="fulano@exemplo.com",
+        github_url="https://github.com/fulano",
+        linkedin_url="https://linkedin.com/in/fulano",
+    )
+    footer = render_home_footer(custom_cfg)
+    xml = fh.to_xml(footer)
+
+    assert "Desenvolvido por" in xml
+    assert "Fulano de Tal" in xml
+    assert "mailto:fulano@exemplo.com" in xml
+    assert "https://github.com/fulano" in xml
+    assert "https://linkedin.com/in/fulano" in xml
+    assert "sem vínculo institucional com o Grupo Globo ou portal G1" in xml
+    assert "Cobertura automatizada via portal G1" in xml
+
+
 def test_home_page_full_structure() -> None:
     """Valida a estrutura completa da página inicial."""
     page = home_page("SP", "Governador", "mapa")
     xml = fh.to_xml(page)
     assert "RADAR" in xml
     assert "Eleitoral" in xml
-    assert "Sobre o Projeto" in xml
-    assert 'href="/sobre"' in xml
+    # Botão da página sobre não deve mais existir no cabeçalho
+    assert "Sobre o Projeto" not in xml
+    assert 'href="/sobre"' not in xml
+    # Novo rodapé com autoria, contatos e disclaimer
+    assert "Desenvolvido por" in xml
+    assert "Rodrigo Guimarães Araújo" in xml
+    assert "mailto:ratopythonista@gmail.com" in xml
+    assert "https://github.com/ratopythonista" in xml
+    assert "https://www.linkedin.com/in/ratopythonista/" in xml
+    assert "sem vínculo institucional com o Grupo Globo ou portal G1" in xml
 
 
 def test_endpoint_home_get(client: TestClient) -> None:

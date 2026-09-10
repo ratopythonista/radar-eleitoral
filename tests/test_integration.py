@@ -48,15 +48,23 @@ class TestASGIServerIntegration:
         assert 'property="og:image"' in html
         assert 'name="twitter:card"' in html
 
-    def test_sobre_page_status_and_content(self, client: TestClient) -> None:
-        """Verifica se a rota /sobre retorna 200 com conteúdo e layout preservados."""
+    def test_sobre_page_returns_404(self, client: TestClient) -> None:
+        """Verifica que a rota legada /sobre foi desativada e responde com 404 Not Found."""
         response = client.get("/sobre")
+        assert response.status_code == 404
+
+    def test_home_page_footer_and_contacts(self, client: TestClient) -> None:
+        """Verifica que a página inicial contém o rodapé com os canais de contato e sem link /sobre."""
+        response = client.get("/")
         assert response.status_code == 200
         html = response.text
-
-        assert "Democratizando o Acesso" in html
-        assert "Voltar ao Mapa" in html
-        assert "copyPixKey" in html
+        assert 'href="/sobre"' not in html
+        assert 'id="radar-footer"' in html
+        assert "mailto:ratopythonista@gmail.com" in html
+        assert "https://github.com/ratopythonista" in html
+        assert "https://www.linkedin.com/in/ratopythonista/" in html
+        assert "Rodrigo Guimarães Araújo" in html
+        assert "sem vínculo institucional com o Grupo Globo ou portal G1" in html
 
     def test_static_assets_serving(self, client: TestClient) -> None:
         """Verifica se os arquivos estáticos de PWA e SEO são entregues corretamente via /static/."""

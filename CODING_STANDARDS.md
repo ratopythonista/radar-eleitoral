@@ -42,8 +42,7 @@ file to judge whether a diff conforms — cite the specific rule below when flag
 - Source code lives strictly under `src/radar_eleitoral/`.
 - Entrypoint at `src/radar_eleitoral/main.py:app` via `fast_app()` and Granian ASGI.
 - Modular screens under `src/radar_eleitoral/pages/`:
-  - `home.py` (`/`): Interactive Brazil SVG map & Regional Cartogram + Cargo filter + Hero result card via HTMX partials (`/candidaturas`).
-  - `sobre.py` (`/sobre`): Bio, achievements, social links, Pix QR Code & Support mechanism.
+  - `home.py` (`/`): Interactive Brazil SVG map & Regional Cartogram + Cargo filter + Hero result card via HTMX partials (`/candidaturas`), with author contact footer and independence disclaimer.
 - Reusable pure FastTag UI components in `src/radar_eleitoral/map_svg.py`, `cartograma.py`, etc.
 - Public static assets in `src/radar_eleitoral/static/` (styles, icons, PWA manifest, service worker).
 - Offline-safe public data in `data/candidaturas.csv`. No internal Globo secrets or credentials.
