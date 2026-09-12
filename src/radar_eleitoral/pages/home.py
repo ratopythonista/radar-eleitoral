@@ -255,6 +255,25 @@ def render_home_content(
     )
 
 
+def render_icon_email() -> fh.FT:
+    """Ícone vetorial de E-mail em SVG."""
+    return fh.Svg(
+        fh.ft(
+            "path",
+            d=(
+                "M3 4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H3zm0 "
+                "2h18l-9 5.625L3 6zm0 2.375l9 5.625 9-5.625V18H3V8.375z"
+            ),
+            fill="currentColor",
+        ),
+        viewBox="0 0 24 24",
+        width="14",
+        height="14",
+        cls="w-3.5 h-3.5 shrink-0 select-none",
+        aria_hidden="true",
+    )
+
+
 def render_icon_github() -> fh.FT:
     """Ícone vetorial do GitHub em SVG."""
     return fh.Svg(
@@ -273,6 +292,8 @@ def render_icon_github() -> fh.FT:
             fill="currentColor",
         ),
         viewBox="0 0 24 24",
+        width="14",
+        height="14",
         cls="w-3.5 h-3.5 shrink-0 select-none",
         aria_hidden="true",
     )
@@ -292,6 +313,8 @@ def render_icon_linkedin() -> fh.FT:
             fill="currentColor",
         ),
         viewBox="0 0 24 24",
+        width="14",
+        height="14",
         cls="w-3.5 h-3.5 shrink-0 select-none",
         aria_hidden="true",
     )
@@ -321,7 +344,7 @@ def render_home_footer(cfg: Settings = settings) -> fh.FT:
                 ),
                 fh.Div(
                     fh.A(
-                        fh.Span("✉️", cls="text-xs select-none"),
+                        render_icon_email(),
                         fh.Span("E-mail"),
                         href=f"mailto:{cfg.author_email}",
                         cls=btn_link_cls,

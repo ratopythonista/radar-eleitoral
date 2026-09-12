@@ -51,3 +51,44 @@ def test_no_standalone_huge_button_in_section() -> None:
 
     assert "Escolha o cargo:" in xml
     assert "cargo-btn-presidente" in xml
+
+
+def test_tailwind_css_contains_icon_size_classes() -> None:
+    """O arquivo static/tailwind.css DEVE conter as classes .w-3.5 e .h-3.5 para ícones."""
+    css_path = Path("src/radar_eleitoral/static/tailwind.css")
+    assert css_path.exists(), "static/tailwind.css não encontrado"
+    css_content = css_path.read_text(encoding="utf-8")
+
+    assert ".w-3\\.5" in css_content or ".w-3.5" in css_content, (
+        "static/tailwind.css não contém a regra de estilo .w-3.5!"
+    )
+    assert ".h-3\\.5" in css_content or ".h-3.5" in css_content, (
+        "static/tailwind.css não contém a regra de estilo .h-3.5!"
+    )
+
+
+def test_footer_icons_have_consistent_size_attributes() -> None:
+    """Garante que todos os ícones do rodapé (E-mail, LinkedIn, GitHub) possuam dimensões uniformes."""
+    from radar_eleitoral.pages.home import (
+        render_home_footer,
+        render_icon_email,
+        render_icon_github,
+        render_icon_linkedin,
+    )
+
+    icons = {
+        "email": fh.to_xml(render_icon_email()),
+        "github": fh.to_xml(render_icon_github()),
+        "linkedin": fh.to_xml(render_icon_linkedin()),
+    }
+
+    for name, icon_xml in icons.items():
+        assert 'width="14"' in icon_xml, f"Ícone {name} não possui width='14'"
+        assert 'height="14"' in icon_xml, f"Ícone {name} não possui height='14'"
+        assert "w-3.5" in icon_xml, f"Ícone {name} não possui classe w-3.5"
+        assert "h-3.5" in icon_xml, f"Ícone {name} não possui classe h-3.5"
+        assert 'viewbox="0 0 24 24"' in icon_xml.lower(), f"Ícone {name} viewBox inválido"
+
+    footer_xml = fh.to_xml(render_home_footer())
+    for name, icon_xml in icons.items():
+        assert icon_xml in footer_xml, f"Ícone {name} ausente no rodapé renderizado"
